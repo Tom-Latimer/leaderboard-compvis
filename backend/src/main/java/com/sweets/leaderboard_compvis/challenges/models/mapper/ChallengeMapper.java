@@ -1,0 +1,19 @@
+package com.sweets.leaderboard_compvis.challenges.models.mapper;
+
+import com.sweets.leaderboard_compvis.challenges.models.DTO.ChallengeDto;
+import com.sweets.leaderboard_compvis.challenges.models.DTO.CreateChallengeDto;
+import com.sweets.leaderboard_compvis.challenges.models.JPA.Challenge;
+import org.mapstruct.Mapper;
+
+import java.util.List;
+
+@Mapper(componentModel = "spring")
+public interface ChallengeMapper {
+    CreateChallengeDto toDto(Challenge challenge);
+
+    Challenge toEntity(CreateChallengeDto challengeDto);
+
+    List<ChallengeDto> toDto(List<Challenge> challenges);
+
+    List<Challenge> toEntity(List<ChallengeDto> challengesDto);
+}
