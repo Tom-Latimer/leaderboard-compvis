@@ -2,15 +2,16 @@ create table if not exists challenges (
     id serial primary key,
     title varchar(100) not null,
     description varchar(2000) not null,
-    created_at timestamptz not null,
     start_date timestamptz,
     end_date timestamptz,
+    created_at timestamptz not null,
+    updated_at timestamptz not null,
     is_active boolean not null
 );
 
 create table if not exists roles (
     id serial primary key,
-    role_name varchar(10) unique not null
+    name varchar(10) unique not null
 );
 
 create table if not exists users (
@@ -19,15 +20,23 @@ create table if not exists users (
     password varchar(100) not null,
     first_name varchar(20),
     last_name varchar(50),
-    role_id INTEGER references roles(id),
+    created_at timestamptz not null,
+    updated_at timestamptz not null,
     is_active boolean not null
+);
+
+create table if not exists user_roles (
+    user_id INTEGER references users(id),
+    role_id INTEGER references roles(id),
+    primary key (user_id, role_id)
 );
 
 create table if not exists teams (
     id serial primary key,
     team_admin INTEGER references users(id),
     name varchar(20) not null,
-    created_at timestamptz,
+    created_at timestamptz not null,
+    updated_at timestamptz not null,
     is_active boolean not null
 );
 

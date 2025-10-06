@@ -10,7 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.OffsetDateTime;
 import java.util.List;
 
 @Service
@@ -39,7 +38,7 @@ public class ChallengeServiceImpl implements ChallengeService {
     public void createChallenge(CreateChallengeDto dto) {
         Challenge challenge = mapper.toEntity(dto);
 
-        challenge.setCreatedAt(OffsetDateTime.now());
+        //challenge.setCreatedAt(OffsetDateTime.now());
         challenge.setActive(true);
 
         challengeRepository.save(challenge);

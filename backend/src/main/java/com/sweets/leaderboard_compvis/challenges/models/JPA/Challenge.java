@@ -1,20 +1,18 @@
 package com.sweets.leaderboard_compvis.challenges.models.JPA;
 
+import com.sweets.leaderboard_compvis.auditing.models.JPA.AuditedJpa;
 import jakarta.persistence.*;
 
 import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "challenges")
-public class Challenge {
+public class Challenge extends AuditedJpa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private Long id;
-
-    @Column
-    private OffsetDateTime createdAt;
 
     @Column
     private OffsetDateTime startDate;
@@ -40,14 +38,6 @@ public class Challenge {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public OffsetDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(OffsetDateTime createdAt) {
-        this.createdAt = createdAt;
     }
 
     public OffsetDateTime getStartDate() {
