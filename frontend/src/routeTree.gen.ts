@@ -9,122 +9,315 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SignupRouteImport } from './routes/signup'
-import { Route as LoginRouteImport } from './routes/login'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as ProfileIndexRouteImport } from './routes/profile/index'
-import { Route as ChallengesIndexRouteImport } from './routes/challenges/index'
+import { Route as AuthRouteRouteImport } from './routes/_auth/route'
+import { Route as AppRouteRouteImport } from './routes/_app/route'
+import { Route as AppIndexRouteImport } from './routes/_app/index'
+import { Route as AuthSignupRouteImport } from './routes/_auth/signup'
+import { Route as AuthLoginRouteImport } from './routes/_auth/login'
+import { Route as AppProfileIndexRouteImport } from './routes/_app/profile/index'
+import { Route as AppChallengesIndexRouteImport } from './routes/_app/challenges/index'
+import { Route as AppChallengesChallengeIdRouteRouteImport } from './routes/_app/challenges/$challengeId/route'
+import { Route as AppChallengesChallengeIdSubmitRouteImport } from './routes/_app/challenges/$challengeId/submit'
+import { Route as AppChallengesChallengeIdOverviewRouteImport } from './routes/_app/challenges/$challengeId/overview'
+import { Route as AppChallengesChallengeIdLeaderboardRouteImport } from './routes/_app/challenges/$challengeId/leaderboard'
+import { Route as AppChallengesChallengeIdFilesRouteImport } from './routes/_app/challenges/$challengeId/files'
 
-const SignupRoute = SignupRouteImport.update({
-  id: '/signup',
-  path: '/signup',
+const AuthRouteRoute = AuthRouteRouteImport.update({
+  id: '/_auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
+const AppRouteRoute = AppRouteRouteImport.update({
+  id: '/_app',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
+const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AppRouteRoute,
 } as any)
-const ProfileIndexRoute = ProfileIndexRouteImport.update({
+const AuthSignupRoute = AuthSignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+const AuthLoginRoute = AuthLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+const AppProfileIndexRoute = AppProfileIndexRouteImport.update({
   id: '/profile/',
   path: '/profile/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AppRouteRoute,
 } as any)
-const ChallengesIndexRoute = ChallengesIndexRouteImport.update({
+const AppChallengesIndexRoute = AppChallengesIndexRouteImport.update({
   id: '/challenges/',
   path: '/challenges/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AppRouteRoute,
 } as any)
+const AppChallengesChallengeIdRouteRoute =
+  AppChallengesChallengeIdRouteRouteImport.update({
+    id: '/challenges/$challengeId',
+    path: '/challenges/$challengeId',
+    getParentRoute: () => AppRouteRoute,
+  } as any)
+const AppChallengesChallengeIdSubmitRoute =
+  AppChallengesChallengeIdSubmitRouteImport.update({
+    id: '/submit',
+    path: '/submit',
+    getParentRoute: () => AppChallengesChallengeIdRouteRoute,
+  } as any)
+const AppChallengesChallengeIdOverviewRoute =
+  AppChallengesChallengeIdOverviewRouteImport.update({
+    id: '/overview',
+    path: '/overview',
+    getParentRoute: () => AppChallengesChallengeIdRouteRoute,
+  } as any)
+const AppChallengesChallengeIdLeaderboardRoute =
+  AppChallengesChallengeIdLeaderboardRouteImport.update({
+    id: '/leaderboard',
+    path: '/leaderboard',
+    getParentRoute: () => AppChallengesChallengeIdRouteRoute,
+  } as any)
+const AppChallengesChallengeIdFilesRoute =
+  AppChallengesChallengeIdFilesRouteImport.update({
+    id: '/files',
+    path: '/files',
+    getParentRoute: () => AppChallengesChallengeIdRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/login': typeof LoginRoute
-  '/signup': typeof SignupRoute
-  '/challenges': typeof ChallengesIndexRoute
-  '/profile': typeof ProfileIndexRoute
+  '/login': typeof AuthLoginRoute
+  '/signup': typeof AuthSignupRoute
+  '/': typeof AppIndexRoute
+  '/challenges/$challengeId': typeof AppChallengesChallengeIdRouteRouteWithChildren
+  '/challenges': typeof AppChallengesIndexRoute
+  '/profile': typeof AppProfileIndexRoute
+  '/challenges/$challengeId/files': typeof AppChallengesChallengeIdFilesRoute
+  '/challenges/$challengeId/leaderboard': typeof AppChallengesChallengeIdLeaderboardRoute
+  '/challenges/$challengeId/overview': typeof AppChallengesChallengeIdOverviewRoute
+  '/challenges/$challengeId/submit': typeof AppChallengesChallengeIdSubmitRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/login': typeof LoginRoute
-  '/signup': typeof SignupRoute
-  '/challenges': typeof ChallengesIndexRoute
-  '/profile': typeof ProfileIndexRoute
+  '/login': typeof AuthLoginRoute
+  '/signup': typeof AuthSignupRoute
+  '/': typeof AppIndexRoute
+  '/challenges/$challengeId': typeof AppChallengesChallengeIdRouteRouteWithChildren
+  '/challenges': typeof AppChallengesIndexRoute
+  '/profile': typeof AppProfileIndexRoute
+  '/challenges/$challengeId/files': typeof AppChallengesChallengeIdFilesRoute
+  '/challenges/$challengeId/leaderboard': typeof AppChallengesChallengeIdLeaderboardRoute
+  '/challenges/$challengeId/overview': typeof AppChallengesChallengeIdOverviewRoute
+  '/challenges/$challengeId/submit': typeof AppChallengesChallengeIdSubmitRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/login': typeof LoginRoute
-  '/signup': typeof SignupRoute
-  '/challenges/': typeof ChallengesIndexRoute
-  '/profile/': typeof ProfileIndexRoute
+  '/_app': typeof AppRouteRouteWithChildren
+  '/_auth': typeof AuthRouteRouteWithChildren
+  '/_auth/login': typeof AuthLoginRoute
+  '/_auth/signup': typeof AuthSignupRoute
+  '/_app/': typeof AppIndexRoute
+  '/_app/challenges/$challengeId': typeof AppChallengesChallengeIdRouteRouteWithChildren
+  '/_app/challenges/': typeof AppChallengesIndexRoute
+  '/_app/profile/': typeof AppProfileIndexRoute
+  '/_app/challenges/$challengeId/files': typeof AppChallengesChallengeIdFilesRoute
+  '/_app/challenges/$challengeId/leaderboard': typeof AppChallengesChallengeIdLeaderboardRoute
+  '/_app/challenges/$challengeId/overview': typeof AppChallengesChallengeIdOverviewRoute
+  '/_app/challenges/$challengeId/submit': typeof AppChallengesChallengeIdSubmitRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/signup' | '/challenges' | '/profile'
+  fullPaths:
+    | '/login'
+    | '/signup'
+    | '/'
+    | '/challenges/$challengeId'
+    | '/challenges'
+    | '/profile'
+    | '/challenges/$challengeId/files'
+    | '/challenges/$challengeId/leaderboard'
+    | '/challenges/$challengeId/overview'
+    | '/challenges/$challengeId/submit'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/signup' | '/challenges' | '/profile'
-  id: '__root__' | '/' | '/login' | '/signup' | '/challenges/' | '/profile/'
+  to:
+    | '/login'
+    | '/signup'
+    | '/'
+    | '/challenges/$challengeId'
+    | '/challenges'
+    | '/profile'
+    | '/challenges/$challengeId/files'
+    | '/challenges/$challengeId/leaderboard'
+    | '/challenges/$challengeId/overview'
+    | '/challenges/$challengeId/submit'
+  id:
+    | '__root__'
+    | '/_app'
+    | '/_auth'
+    | '/_auth/login'
+    | '/_auth/signup'
+    | '/_app/'
+    | '/_app/challenges/$challengeId'
+    | '/_app/challenges/'
+    | '/_app/profile/'
+    | '/_app/challenges/$challengeId/files'
+    | '/_app/challenges/$challengeId/leaderboard'
+    | '/_app/challenges/$challengeId/overview'
+    | '/_app/challenges/$challengeId/submit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  LoginRoute: typeof LoginRoute
-  SignupRoute: typeof SignupRoute
-  ChallengesIndexRoute: typeof ChallengesIndexRoute
-  ProfileIndexRoute: typeof ProfileIndexRoute
+  AppRouteRoute: typeof AppRouteRouteWithChildren
+  AuthRouteRoute: typeof AuthRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/signup': {
-      id: '/signup'
-      path: '/signup'
-      fullPath: '/signup'
-      preLoaderRoute: typeof SignupRouteImport
+    '/_auth': {
+      id: '/_auth'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AppRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
+    '/_app/': {
+      id: '/_app/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRouteRoute
     }
-    '/profile/': {
-      id: '/profile/'
+    '/_auth/signup': {
+      id: '/_auth/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof AuthSignupRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/_auth/login': {
+      id: '/_auth/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof AuthLoginRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/_app/profile/': {
+      id: '/_app/profile/'
       path: '/profile'
       fullPath: '/profile'
-      preLoaderRoute: typeof ProfileIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AppProfileIndexRouteImport
+      parentRoute: typeof AppRouteRoute
     }
-    '/challenges/': {
-      id: '/challenges/'
+    '/_app/challenges/': {
+      id: '/_app/challenges/'
       path: '/challenges'
       fullPath: '/challenges'
-      preLoaderRoute: typeof ChallengesIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AppChallengesIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/challenges/$challengeId': {
+      id: '/_app/challenges/$challengeId'
+      path: '/challenges/$challengeId'
+      fullPath: '/challenges/$challengeId'
+      preLoaderRoute: typeof AppChallengesChallengeIdRouteRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/challenges/$challengeId/submit': {
+      id: '/_app/challenges/$challengeId/submit'
+      path: '/submit'
+      fullPath: '/challenges/$challengeId/submit'
+      preLoaderRoute: typeof AppChallengesChallengeIdSubmitRouteImport
+      parentRoute: typeof AppChallengesChallengeIdRouteRoute
+    }
+    '/_app/challenges/$challengeId/overview': {
+      id: '/_app/challenges/$challengeId/overview'
+      path: '/overview'
+      fullPath: '/challenges/$challengeId/overview'
+      preLoaderRoute: typeof AppChallengesChallengeIdOverviewRouteImport
+      parentRoute: typeof AppChallengesChallengeIdRouteRoute
+    }
+    '/_app/challenges/$challengeId/leaderboard': {
+      id: '/_app/challenges/$challengeId/leaderboard'
+      path: '/leaderboard'
+      fullPath: '/challenges/$challengeId/leaderboard'
+      preLoaderRoute: typeof AppChallengesChallengeIdLeaderboardRouteImport
+      parentRoute: typeof AppChallengesChallengeIdRouteRoute
+    }
+    '/_app/challenges/$challengeId/files': {
+      id: '/_app/challenges/$challengeId/files'
+      path: '/files'
+      fullPath: '/challenges/$challengeId/files'
+      preLoaderRoute: typeof AppChallengesChallengeIdFilesRouteImport
+      parentRoute: typeof AppChallengesChallengeIdRouteRoute
     }
   }
 }
 
+interface AppChallengesChallengeIdRouteRouteChildren {
+  AppChallengesChallengeIdFilesRoute: typeof AppChallengesChallengeIdFilesRoute
+  AppChallengesChallengeIdLeaderboardRoute: typeof AppChallengesChallengeIdLeaderboardRoute
+  AppChallengesChallengeIdOverviewRoute: typeof AppChallengesChallengeIdOverviewRoute
+  AppChallengesChallengeIdSubmitRoute: typeof AppChallengesChallengeIdSubmitRoute
+}
+
+const AppChallengesChallengeIdRouteRouteChildren: AppChallengesChallengeIdRouteRouteChildren =
+  {
+    AppChallengesChallengeIdFilesRoute: AppChallengesChallengeIdFilesRoute,
+    AppChallengesChallengeIdLeaderboardRoute:
+      AppChallengesChallengeIdLeaderboardRoute,
+    AppChallengesChallengeIdOverviewRoute:
+      AppChallengesChallengeIdOverviewRoute,
+    AppChallengesChallengeIdSubmitRoute: AppChallengesChallengeIdSubmitRoute,
+  }
+
+const AppChallengesChallengeIdRouteRouteWithChildren =
+  AppChallengesChallengeIdRouteRoute._addFileChildren(
+    AppChallengesChallengeIdRouteRouteChildren,
+  )
+
+interface AppRouteRouteChildren {
+  AppIndexRoute: typeof AppIndexRoute
+  AppChallengesChallengeIdRouteRoute: typeof AppChallengesChallengeIdRouteRouteWithChildren
+  AppChallengesIndexRoute: typeof AppChallengesIndexRoute
+  AppProfileIndexRoute: typeof AppProfileIndexRoute
+}
+
+const AppRouteRouteChildren: AppRouteRouteChildren = {
+  AppIndexRoute: AppIndexRoute,
+  AppChallengesChallengeIdRouteRoute:
+    AppChallengesChallengeIdRouteRouteWithChildren,
+  AppChallengesIndexRoute: AppChallengesIndexRoute,
+  AppProfileIndexRoute: AppProfileIndexRoute,
+}
+
+const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
+  AppRouteRouteChildren,
+)
+
+interface AuthRouteRouteChildren {
+  AuthLoginRoute: typeof AuthLoginRoute
+  AuthSignupRoute: typeof AuthSignupRoute
+}
+
+const AuthRouteRouteChildren: AuthRouteRouteChildren = {
+  AuthLoginRoute: AuthLoginRoute,
+  AuthSignupRoute: AuthSignupRoute,
+}
+
+const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
+  AuthRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  LoginRoute: LoginRoute,
-  SignupRoute: SignupRoute,
-  ChallengesIndexRoute: ChallengesIndexRoute,
-  ProfileIndexRoute: ProfileIndexRoute,
+  AppRouteRoute: AppRouteRouteWithChildren,
+  AuthRouteRoute: AuthRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

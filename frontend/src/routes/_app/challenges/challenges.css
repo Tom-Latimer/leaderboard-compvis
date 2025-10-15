@@ -1,0 +1,41 @@
+.tabbed-container {
+    width: 100%;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.tabbed-nav {
+    border-bottom: darkgray 2px solid;
+}
+
+.tabbed-nav-link, .tabbed-nav-link:visited {
+    position: relative;
+    text-decoration: none;
+    color: black;
+    padding: 0.5rem 0.75rem;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.tabbed-nav-link:hover {
+    background-color: whitesmoke;
+}
+
+.tabbed-nav-link-active, .tabbed-nav-link-active:visited {
+    color: darkslategray;
+    border-bottom: darkslategrey 3px solid;
+}
+
+/*.tabbed-nav-link-active::after {*/
+/*    border-radius: 8px;*/
+/*    content: "";*/
+/*    position: absolute;*/
+/*    bottom: -5px;*/
+/*    left: 50%;*/
+/*    transform: translateX(-50%);*/
+/*    height: 2px;*/
+/*    width: 100%;*/
+/*    background-color: darkslategrey;*/
+/*}*/

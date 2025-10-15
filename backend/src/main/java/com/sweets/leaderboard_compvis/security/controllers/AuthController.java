@@ -31,7 +31,7 @@ public class AuthController {
         return ResponseEntity.ok(new MessageResponse("User registered successfully"));
     }
 
-    @PostMapping("/signin")
+    @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
         return ResponseEntity.ok(authenticationService.signIn(loginRequest));
     }

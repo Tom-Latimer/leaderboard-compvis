@@ -5,6 +5,7 @@
 .navbar {
     width: 100%;
     align-items: center;
+    padding: 1.5rem;
 }
 
 .nav-link, .nav-link:visited {
@@ -30,5 +31,19 @@
     transform: translateX(-50%);
     height: 2px;
     width: 100%;
+    background-color: var(--primary-btn-bg-colour);
+}
+
+.nav-button {
+    border-radius: 8px;
+    border: none;
+    padding: 0.5rem 0.75rem;
     background-color: darkslategrey;
+    color: white;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+.nav-button:hover {
+    background-color: var(--primary-btn-bg-colour-hover);
 }

@@ -12,6 +12,7 @@
   "dependencies": {
     "@tanstack/react-router": "^1.132.47",
     "@tanstack/react-router-devtools": "^1.132.47",
+    "axios": "^1.12.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },

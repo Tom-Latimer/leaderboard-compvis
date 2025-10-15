@@ -29,7 +29,7 @@ public class ChallengeServiceImpl implements ChallengeService {
     public List<ChallengeDto> getChallengesPaged(Pageable pageable) {
         Page<Challenge> page = challengeRepository.findAll(pageable);
 
-        List<ChallengeDto> challenges = mapper.toDto(page.getContent());
+        List<ChallengeDto> challenges = mapper.toCreateChallengeDto(page.getContent());
 
         return challenges;
     }
@@ -42,5 +42,12 @@ public class ChallengeServiceImpl implements ChallengeService {
         challenge.setActive(true);
 
         challengeRepository.save(challenge);
+    }
+
+    @Override
+    public ChallengeDto getChallengeById(Long challengeId) {
+        Challenge challenge = challengeRepository.findById(challengeId).orElse(null);
+
+        return mapper.toChallengeDto(challenge);
     }
 }

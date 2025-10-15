@@ -9,11 +9,13 @@ import java.util.List;
 
 @Mapper
 public interface ChallengeMapper {
-    CreateChallengeDto toDto(Challenge challenge);
+    CreateChallengeDto toCreateChallengeDto(Challenge challenge);
+
+    ChallengeDto toChallengeDto(Challenge challenge);
 
     Challenge toEntity(CreateChallengeDto challengeDto);
 
-    List<ChallengeDto> toDto(List<Challenge> challenges);
+    List<ChallengeDto> toCreateChallengeDto(List<Challenge> challenges);
 
     List<Challenge> toEntity(List<ChallengeDto> challengesDto);
 }

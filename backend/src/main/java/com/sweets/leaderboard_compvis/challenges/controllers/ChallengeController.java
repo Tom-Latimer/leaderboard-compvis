@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/challenges")
 public class ChallengeController {
 
     private final ChallengeService challengeService;
@@ -22,7 +23,7 @@ public class ChallengeController {
         this.challengeService = challengeService;
     }
 
-    @GetMapping("/challenges")
+    @GetMapping("")
     public ResponseEntity<List<ChallengeDto>> getChallenges(
             @RequestParam int p,
             @RequestParam int s
@@ -34,11 +35,16 @@ public class ChallengeController {
         return ResponseEntity.ok(challenges);
     }
 
-    @PostMapping("/challenges")
+    @PostMapping("")
     public ResponseEntity<String> createChallenge(@RequestBody CreateChallengeDto dto) {
 
         challengeService.createChallenge(dto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body("Test");
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ChallengeDto> getChallengeById(@PathVariable long id) {
+        return ResponseEntity.ok(challengeService.getChallengeById(id));
     }
 }

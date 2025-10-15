@@ -13,4 +13,6 @@ public interface ChallengeService {
 
     @Transactional
     void createChallenge(CreateChallengeDto dto);
+
+    ChallengeDto getChallengeById(Long id);
 }
