@@ -20,13 +20,13 @@ public abstract class AuditedJpa {
     @PrePersist
     public void prePersist() {
         OffsetDateTime now = OffsetDateTime.now();
-        auditMetadata.setCreatedAt(now);       // set only on create
-        auditMetadata.setUpdatedAt(now);       // set on create
+        auditMetadata.setCreatedAt(now);
+        auditMetadata.setUpdatedAt(now);
     }
 
     @PreUpdate
     public void preUpdate() {
-        auditMetadata.setUpdatedAt(OffsetDateTime.now());  // set on every update
+        auditMetadata.setUpdatedAt(OffsetDateTime.now());
     }
 
     public AuditMetadata getAuditMetadata() {
