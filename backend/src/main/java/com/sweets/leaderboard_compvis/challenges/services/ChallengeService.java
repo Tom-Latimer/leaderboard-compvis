@@ -2,6 +2,7 @@ package com.sweets.leaderboard_compvis.challenges.services;
 
 import com.sweets.leaderboard_compvis.challenges.models.DTO.ChallengeDto;
 import com.sweets.leaderboard_compvis.challenges.models.DTO.CreateChallengeDto;
+import com.sweets.leaderboard_compvis.challenges.models.DTO.DatasetDownloadDto;
 import com.sweets.leaderboard_compvis.challenges.models.DTO.FileDownloadDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,4 +26,6 @@ public interface ChallengeService {
     void uploadDataset(Long challengeId, MultipartFile file) throws IOException;
 
     FileDownloadDto downloadDataset(UUID attachmentId) throws NoSuchElementException;
+
+    List<DatasetDownloadDto> getDatasetsByChallengeIdPaged(Long challengeId, Pageable pageable);
 }

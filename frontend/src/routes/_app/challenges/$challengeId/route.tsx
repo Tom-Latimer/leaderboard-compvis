@@ -27,7 +27,8 @@ function RouteComponent() {
                           className="tabbed-nav-link"
                           activeProps={{className: "tabbed-nav-link-active"}}>Overview</Link>
                     <Link to="/challenges/$challengeId/files" params={{challengeId: challenge.id}}
-                          className="tabbed-nav-link" activeProps={{className: "tabbed-nav-link-active"}}>Files</Link>
+                          className="tabbed-nav-link"
+                          activeProps={{className: "tabbed-nav-link-active"}}>Datasets</Link>
                     <Link to="/challenges/$challengeId/leaderboard" params={{challengeId: challenge.id}}
                           className="tabbed-nav-link"
                           activeProps={{className: "tabbed-nav-link-active"}}>Leaderboard</Link>

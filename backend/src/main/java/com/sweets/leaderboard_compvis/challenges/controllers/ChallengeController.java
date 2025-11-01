@@ -2,6 +2,7 @@ package com.sweets.leaderboard_compvis.challenges.controllers;
 
 import com.sweets.leaderboard_compvis.challenges.models.DTO.ChallengeDto;
 import com.sweets.leaderboard_compvis.challenges.models.DTO.CreateChallengeDto;
+import com.sweets.leaderboard_compvis.challenges.models.DTO.DatasetDownloadDto;
 import com.sweets.leaderboard_compvis.challenges.models.DTO.FileDownloadDto;
 import com.sweets.leaderboard_compvis.challenges.services.ChallengeService;
 import com.sweets.leaderboard_compvis.infrastructure.models.DTO.MessageResponse;
@@ -56,8 +57,8 @@ public class ChallengeController {
         return ResponseEntity.ok(challengeService.getChallengeById(id));
     }
 
-    @PostMapping("/{id}/attachments/upload")
-    public ResponseEntity<MessageResponse> uploadChallengeAttachment(
+    @PostMapping("/{id}/datasets/upload")
+    public ResponseEntity<MessageResponse> uploadChallengeDataset(
             @PathVariable long id,
             @RequestParam("file") MultipartFile file) throws IOException {
 
@@ -66,8 +67,8 @@ public class ChallengeController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new MessageResponse("File uploaded successfully"));
     }
 
-    @GetMapping("/{id}/attachments/{attachmentId}/download")
-    public ResponseEntity<InputStreamResource> downloadChallengeAttachment(
+    @GetMapping("/{id}/datasets/{attachmentId}/download")
+    public ResponseEntity<InputStreamResource> downloadChallengeDataset(
             @PathVariable long id,
             @PathVariable UUID attachmentId) {
 
@@ -79,5 +80,18 @@ public class ChallengeController {
                 .contentType(MediaType.parseMediaType(fileDownloadDto.getContentType().getValue()))
                 .contentLength(fileDownloadDto.getContentLength())
                 .body(new InputStreamResource(fileDownloadDto.getInputStream()));
+    }
+
+    @GetMapping("/{id}/datasets")
+    public ResponseEntity<List<DatasetDownloadDto>> getChallenges(
+            @PathVariable long id,
+            @RequestParam int p,
+            @RequestParam int s
+    ) {
+        Pageable pageable = PageRequest.of(p, s);
+
+        List<DatasetDownloadDto> datasets = challengeService.getDatasetsByChallengeIdPaged(id, pageable);
+
+        return ResponseEntity.ok(datasets);
     }
 }

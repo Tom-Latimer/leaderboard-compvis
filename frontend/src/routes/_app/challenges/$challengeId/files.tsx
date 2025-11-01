@@ -1,9 +1,16 @@
-import { createFileRoute } from '@tanstack/react-router'
+import {createFileRoute} from '@tanstack/react-router'
+import {getDatasets} from "../../../../api/challenges/challengeApi.ts";
+import DatasetList from "../../../../components/DatasetList/DatasetList.tsx";
 
 export const Route = createFileRoute('/_app/challenges/$challengeId/files')({
-  component: RouteComponent,
+    component: RouteComponent,
+    loader: async ({params}) => {
+        return await getDatasets(params.challengeId, 0, 10);
+    }
 })
 
 function RouteComponent() {
-  return <div>Hello "/challenges/$challengeId/files"!</div>
+    return (
+        <DatasetList datasets={Route.useLoaderData()}></DatasetList>
+    );
 }

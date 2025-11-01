@@ -4,6 +4,8 @@ import com.sweets.leaderboard_compvis.auditing.models.JPA.AuditedJpa;
 import jakarta.persistence.*;
 
 import java.time.OffsetDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "challenges")
@@ -25,6 +27,11 @@ public class Challenge extends AuditedJpa {
 
     @Column
     private String description;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "challenge_datasets", joinColumns = @JoinColumn(name = "challenge_id"),
+            inverseJoinColumns = @JoinColumn(name = "dataset_id"))
+    private Set<DatasetMetadata> datasets = new HashSet<>();
 
     @Column(nullable = false)
     private boolean isActive;
@@ -70,6 +77,18 @@ public class Challenge extends AuditedJpa {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Set<DatasetMetadata> getDatasets() {
+        return datasets;
+    }
+
+    public void setDatasets(Set<DatasetMetadata> datasets) {
+        this.datasets = datasets;
+    }
+
+    public void addDataset(DatasetMetadata dataset) {
+        this.datasets.add(dataset);
     }
 
     public boolean isActive() {

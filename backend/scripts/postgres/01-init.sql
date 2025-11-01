@@ -1,14 +1,3 @@
-create table if not exists dataset_metadata (
-    id serial primary key,
-    attachment_id uuid unique not null,
-    file_name varchar(100) not null,
-    storage_key text unique not null,
-    content_type varchar(50) not null,
-    content_length integer not null,
-    created_at timestamptz not null,
-    updated_at timestamptz not null
-);
-
 create table if not exists challenges (
     id serial primary key,
     title varchar(100) not null,
@@ -34,6 +23,23 @@ create table if not exists users (
     created_at timestamptz not null,
     updated_at timestamptz not null,
     is_active boolean not null
+);
+
+create table if not exists dataset_metadata (
+    id serial primary key,
+    attachment_id uuid unique not null,
+    file_name varchar(100) not null,
+    storage_key text unique not null,
+    content_type varchar(50) not null,
+    content_length integer not null,
+    created_at timestamptz not null,
+    updated_at timestamptz not null
+);
+
+create table if not exists challenge_datasets (
+    challenge_id integer references challenges(id),
+    dataset_id integer references dataset_metadata(id),
+    primary key(challenge_id, dataset_id)
 );
 
 create table if not exists submission_metadata (
