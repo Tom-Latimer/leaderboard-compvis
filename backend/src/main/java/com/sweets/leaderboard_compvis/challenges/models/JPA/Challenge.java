@@ -33,6 +33,9 @@ public class Challenge extends AuditedJpa {
             inverseJoinColumns = @JoinColumn(name = "dataset_id"))
     private Set<DatasetMetadata> datasets = new HashSet<>();
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "challenge", cascade = CascadeType.MERGE, orphanRemoval = true)
+    private Set<SubmissionMetadata> submissions = new HashSet<>();
+
     @Column(nullable = false)
     private boolean isActive;
 
@@ -89,6 +92,18 @@ public class Challenge extends AuditedJpa {
 
     public void addDataset(DatasetMetadata dataset) {
         this.datasets.add(dataset);
+    }
+
+    public Set<SubmissionMetadata> getSubmissions() {
+        return submissions;
+    }
+
+    public void setSubmissions(Set<SubmissionMetadata> submissions) {
+        this.submissions = submissions;
+    }
+
+    public void addSubmission(SubmissionMetadata submission) {
+        this.submissions.add(submission);
     }
 
     public boolean isActive() {

@@ -83,7 +83,7 @@ public class ChallengeController {
     }
 
     @GetMapping("/{id}/datasets")
-    public ResponseEntity<List<DatasetDownloadDto>> getChallenges(
+    public ResponseEntity<List<DatasetDownloadDto>> getDatasets(
             @PathVariable long id,
             @RequestParam int p,
             @RequestParam int s

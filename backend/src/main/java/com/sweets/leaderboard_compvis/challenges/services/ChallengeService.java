@@ -5,6 +5,7 @@ import com.sweets.leaderboard_compvis.challenges.models.DTO.CreateChallengeDto;
 import com.sweets.leaderboard_compvis.challenges.models.DTO.DatasetDownloadDto;
 import com.sweets.leaderboard_compvis.challenges.models.DTO.FileDownloadDto;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,11 +19,13 @@ public interface ChallengeService {
     List<ChallengeDto> getChallengesPaged(Pageable pageable);
 
     @Transactional
+    @PreAuthorize("@auth.hasRole('ADMIN')")
     void createChallenge(CreateChallengeDto dto);
 
     ChallengeDto getChallengeById(Long id);
 
-    //@PreAuthorize("@auth.hasRole('ADMIN')")
+    @Transactional
+    @PreAuthorize("@auth.hasRole('ADMIN')")
     void uploadDataset(Long challengeId, MultipartFile file) throws IOException;
 
     FileDownloadDto downloadDataset(UUID attachmentId) throws NoSuchElementException;

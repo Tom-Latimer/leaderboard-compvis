@@ -1,12 +1,71 @@
 package com.sweets.leaderboard_compvis.challenges.models.JPA;
 
+import com.sweets.leaderboard_compvis.challenges.models.EMimeTypes;
+import com.sweets.leaderboard_compvis.challenges.models.ESubmissionStatus;
 import jakarta.persistence.*;
+
+import java.util.UUID;
 
 @Entity
 @Table(name = "submission_metadata")
 public class SubmissionMetadata extends FileMetadata {
 
-    @Column
-    @JoinTable(name = "challenges", joinColumns = @JoinColumn(name = "challenge_id"))
-    private long submissionId;
+    @ManyToOne
+    @JoinColumn(name = "challenge_id", referencedColumnName = "id")
+    private Challenge challenge;
+
+    @Column(nullable = false)
+    private String submitterName;
+
+    @Column(nullable = false)
+    private String submitterEmail;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ESubmissionStatus submissionStatus;
+
+    public SubmissionMetadata() {
+    }
+
+    public SubmissionMetadata(UUID attachmentId, String storageKey, String fileName, EMimeTypes contentType,
+                              long contentLength, Challenge challenge, String submitterName, String submitterEmail,
+                              ESubmissionStatus submissionStatus) {
+        super(attachmentId, storageKey, fileName, contentType, contentLength);
+        this.challenge = challenge;
+        this.submitterName = submitterName;
+        this.submitterEmail = submitterEmail;
+        this.submissionStatus = submissionStatus;
+    }
+
+    public Challenge getChallenge() {
+        return challenge;
+    }
+
+    public void setChallenge(Challenge challenge) {
+        this.challenge = challenge;
+    }
+
+    public String getSubmitterName() {
+        return submitterName;
+    }
+
+    public void setSubmitterName(String submitterName) {
+        submitterName = submitterName;
+    }
+
+    public String getSubmitterEmail() {
+        return submitterEmail;
+    }
+
+    public void setSubmitterEmail(String submitterEmail) {
+        submitterEmail = submitterEmail;
+    }
+
+    public ESubmissionStatus getSubmissionStatus() {
+        return submissionStatus;
+    }
+
+    public void setSubmissionStatus(ESubmissionStatus submissionStatus) {
+        this.submissionStatus = submissionStatus;
+    }
 }
