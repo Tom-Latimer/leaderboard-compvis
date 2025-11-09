@@ -15,7 +15,10 @@ public class SubmissionMetadata extends FileMetadata {
     private Challenge challenge;
 
     @Column(nullable = false)
-    private String submitterName;
+    private String submitterFirstName;
+
+    @Column(nullable = false)
+    private String submitterLastName;
 
     @Column(nullable = false)
     private String submitterEmail;
@@ -28,11 +31,13 @@ public class SubmissionMetadata extends FileMetadata {
     }
 
     public SubmissionMetadata(UUID attachmentId, String storageKey, String fileName, EMimeTypes contentType,
-                              long contentLength, Challenge challenge, String submitterName, String submitterEmail,
+                              long contentLength, Challenge challenge, String submitterFirstName,
+                              String submitterLastName, String submitterEmail,
                               ESubmissionStatus submissionStatus) {
         super(attachmentId, storageKey, fileName, contentType, contentLength);
         this.challenge = challenge;
-        this.submitterName = submitterName;
+        this.submitterFirstName = submitterFirstName;
+        this.submitterLastName = submitterLastName;
         this.submitterEmail = submitterEmail;
         this.submissionStatus = submissionStatus;
     }
@@ -45,12 +50,20 @@ public class SubmissionMetadata extends FileMetadata {
         this.challenge = challenge;
     }
 
-    public String getSubmitterName() {
-        return submitterName;
+    public String getSubmitterFirstName() {
+        return submitterFirstName;
     }
 
-    public void setSubmitterName(String submitterName) {
+    public void setSubmitterFirstName(String submitterName) {
         submitterName = submitterName;
+    }
+
+    public String getSubmitterLastName() {
+        return submitterLastName;
+    }
+
+    public void setSubmitterLastName(String submitterLastName) {
+        this.submitterLastName = submitterLastName;
     }
 
     public String getSubmitterEmail() {

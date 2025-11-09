@@ -4,7 +4,6 @@ import com.sweets.leaderboard_compvis.challenges.models.DTO.FileDownloadDto;
 import com.sweets.leaderboard_compvis.challenges.models.submissions.DTO.*;
 import com.sweets.leaderboard_compvis.challenges.services.ChallengeService;
 import com.sweets.leaderboard_compvis.challenges.services.SubmissionService;
-import com.sweets.leaderboard_compvis.infrastructure.models.DTO.MessageResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -50,14 +49,14 @@ public class SubmissionsController {
     }
 
     @PostMapping("/challenges/{id}/submissions")
-    public ResponseEntity<MessageResponse> uploadSubmission(
+    public ResponseEntity<SubmissionDto> uploadSubmission(
             @RequestPart("file") MultipartFile file,
             @RequestPart("metadata") @Valid ChallengeSubmitUploadDto uploadDto,
             @PathVariable long id) throws IOException {
 
-        submissionService.uploadChallengeSubmission(id, uploadDto, file);
+        SubmissionDto dto = submissionService.uploadChallengeSubmission(id, uploadDto, file);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(new MessageResponse("File uploaded successfully"));
+        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 
     @GetMapping("/challenges/{id}/submissions")

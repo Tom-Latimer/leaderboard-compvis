@@ -7,21 +7,23 @@ public class SubmissionListItemDto {
     private Long challengeId;
     private String challengeName;
     private UUID submissionId;
-    private String SubmitterName;
-    private String SubmitterEmail;
+    private String submitterFirstName;
+    private String submitterLastName;
+    private String submitterEmail;
 
     public SubmissionListItemDto() {
     }
 
-    public SubmissionListItemDto(Long challengeId, String challengeName, UUID submissionId, String submitterName,
-                                 String submitterEmail) {
+    public SubmissionListItemDto(Long challengeId, String challengeName, UUID submissionId, String submitterFirstName
+            , String submitterLastName, String submitterEmail) {
         this.challengeId = challengeId;
         this.challengeName = challengeName;
         this.submissionId = submissionId;
-        SubmitterName = submitterName;
-        SubmitterEmail = submitterEmail;
+        this.submitterFirstName = submitterFirstName;
+        this.submitterLastName = submitterLastName;
+        this.submitterEmail = submitterEmail;
     }
-    
+
     public Long getChallengeId() {
         return challengeId;
     }
@@ -46,19 +48,27 @@ public class SubmissionListItemDto {
         this.submissionId = submissionId;
     }
 
-    public String getSubmitterName() {
-        return SubmitterName;
+    public String getSubmitterFirstName() {
+        return submitterFirstName;
     }
 
-    public void setSubmitterName(String submitterName) {
-        SubmitterName = submitterName;
+    public void setSubmitterFirstName(String submitterFirstName) {
+        this.submitterFirstName = submitterFirstName;
+    }
+
+    public String getSubmitterLastName() {
+        return submitterLastName;
+    }
+
+    public void setSubmitterLastName(String submitterLastName) {
+        this.submitterLastName = submitterLastName;
     }
 
     public String getSubmitterEmail() {
-        return SubmitterEmail;
+        return submitterEmail;
     }
 
     public void setSubmitterEmail(String submitterEmail) {
-        SubmitterEmail = submitterEmail;
+        this.submitterEmail = submitterEmail;
     }
 }

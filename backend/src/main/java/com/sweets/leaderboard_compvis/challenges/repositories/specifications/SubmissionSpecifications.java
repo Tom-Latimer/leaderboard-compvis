@@ -24,10 +24,15 @@ public class SubmissionSpecifications {
                         cb.lower(root.get("submitterEmail")),
                         "%" + filter.getSubmitterEmail().toLowerCase() + "%"));
             }
-            if (filter.getSubmitterName() != null && !filter.getSubmitterName().isBlank()) {
+            if (filter.getSubmitterFirstName() != null && !filter.getSubmitterFirstName().isBlank()) {
                 predicates.add(cb.like(
-                        cb.lower(root.get("submitterName")),
-                        "%" + filter.getSubmitterName().toLowerCase() + "%"));
+                        cb.lower(root.get("submitterFirstName")),
+                        "%" + filter.getSubmitterFirstName().toLowerCase() + "%"));
+            }
+            if (filter.getSubmitterLastName() != null && !filter.getSubmitterLastName().isBlank()) {
+                predicates.add(cb.like(
+                        cb.lower(root.get("submitterLastName")),
+                        "%" + filter.getSubmitterLastName().toLowerCase() + "%"));
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));

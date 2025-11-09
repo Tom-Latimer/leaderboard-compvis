@@ -6,17 +6,19 @@ public class SubmissionFilterDto {
     private Long challengeId;
     private ESubmissionStatus status;
     private String submitterEmail;
-    private String submitterName;
+    private String submitterFirstName;
+    private String submitterLastName;
 
     public SubmissionFilterDto() {
     }
 
     public SubmissionFilterDto(Long challengeId, ESubmissionStatus status, String submitterEmail,
-                               String submitterName) {
+                               String submitterFirstName, String submitterLastName) {
         this.challengeId = challengeId;
         this.status = status;
         this.submitterEmail = submitterEmail;
-        this.submitterName = submitterName;
+        this.submitterFirstName = submitterFirstName;
+        this.submitterLastName = submitterLastName;
     }
 
     public Long getChallengeId() {
@@ -43,11 +45,19 @@ public class SubmissionFilterDto {
         this.submitterEmail = submitterEmail;
     }
 
-    public String getSubmitterName() {
-        return submitterName;
+    public String getSubmitterFirstName() {
+        return submitterFirstName;
     }
 
-    public void setSubmitterName(String submitterName) {
-        this.submitterName = submitterName;
+    public void setSubmitterFirstName(String submitterFirstName) {
+        this.submitterFirstName = submitterFirstName;
+    }
+
+    public String getSubmitterLastName() {
+        return submitterLastName;
+    }
+
+    public void setSubmitterLastName(String submitterLastName) {
+        this.submitterLastName = submitterLastName;
     }
 }

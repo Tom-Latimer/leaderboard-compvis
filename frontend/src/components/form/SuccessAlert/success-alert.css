@@ -1,0 +1,39 @@
+.success-alert-container {
+    width: 100%;
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+}
+
+.success-alert, .alert-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.success-alert {
+    margin: 0 auto;
+    max-width: 35rem;
+    gap: 1rem;
+}
+
+.success-alert svg {
+    height: 6rem;
+    width: 6rem;
+}
+
+.success-alert svg, .alert-body h2 {
+    color: #2e9952;
+}
+
+.alert-body {
+    gap: 0.5rem;
+}
+
+.alert-body p {
+    color: #6a6a6a;
+    text-align: center;
+}

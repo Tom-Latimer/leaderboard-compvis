@@ -1,9 +1,16 @@
-import { createFileRoute } from '@tanstack/react-router'
+import {createFileRoute} from '@tanstack/react-router'
+import ChallengeSubmitForm from "../../../../components/ChallengeSubmitForm/ChallengeSubmitForm.tsx";
 
 export const Route = createFileRoute('/_app/challenges/$challengeId/submit')({
-  component: RouteComponent,
+    component: RouteComponent,
 })
 
 function RouteComponent() {
-  return <div>Hello "/challenges/$challengeId/submit"!</div>
+    const {challengeId} = Route.useParams();
+
+    return (
+        <>
+            <ChallengeSubmitForm challengeId={challengeId}/>
+        </>
+    );
 }

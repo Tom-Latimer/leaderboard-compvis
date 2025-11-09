@@ -1,6 +1,7 @@
 package com.sweets.leaderboard_compvis.challenges.models.mapper;
 
 import com.sweets.leaderboard_compvis.challenges.models.JPA.SubmissionMetadata;
+import com.sweets.leaderboard_compvis.challenges.models.submissions.DTO.SubmissionDto;
 import com.sweets.leaderboard_compvis.challenges.models.submissions.DTO.SubmissionLeaderboardDto;
 import com.sweets.leaderboard_compvis.challenges.models.submissions.DTO.SubmissionListItemDto;
 import org.mapstruct.Mapper;
@@ -22,4 +23,6 @@ public interface SubmissionMapper {
     SubmissionLeaderboardDto toSubmissionLeaderboardDto(SubmissionMetadata submissionMetadata);
 
     List<SubmissionLeaderboardDto> toSubmissionLeaderboardDtoList(List<SubmissionMetadata> submissionMetadata);
+
+    SubmissionDto toSubmissionDto(SubmissionMetadata submissionMetadata);
 }

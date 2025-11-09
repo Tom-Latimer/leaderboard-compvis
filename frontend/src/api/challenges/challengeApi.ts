@@ -1,4 +1,4 @@
-import type {Challenge} from "../../types/challenges/challenge.tsx";
+import type {Challenge} from "../../types/challenges/challenge.ts";
 import api from "../axios.ts";
 import {Dataset} from "../../types/challenges/dataset.ts";
 

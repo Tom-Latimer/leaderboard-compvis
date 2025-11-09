@@ -1,5 +1,5 @@
 import './challenge-list.css';
-import type {Challenge} from "../../types/challenges/challenge.tsx";
+import type {Challenge} from "../../types/challenges/challenge.ts";
 import {Link} from "@tanstack/react-router";
 
 const ChallengeCard = ({challenge}: { challenge: Challenge }) => {

@@ -21,7 +21,7 @@ public interface SubmissionService {
     SubmissionStatusDto rejectSubmission(UUID submissionId);
 
     @Transactional
-    void uploadChallengeSubmission(Long challengeId, ChallengeSubmitUploadDto uploadDto, MultipartFile file) throws IOException;
+    SubmissionDto uploadChallengeSubmission(Long challengeId, ChallengeSubmitUploadDto uploadDto, MultipartFile file) throws IOException;
 
     @PreAuthorize("@auth.hasAnyRole('ADMIN', 'MODERATOR')")
     FileDownloadDto downloadSubmission(UUID submissionId);

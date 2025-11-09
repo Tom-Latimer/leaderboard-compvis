@@ -1,30 +1,34 @@
 package com.sweets.leaderboard_compvis.challenges.models.submissions.DTO;
 
+import com.sweets.leaderboard_compvis.challenges.models.ESubmissionStatus;
+
 import java.util.UUID;
 
-public class SubmissionLeaderboardDto {
-    private UUID submissionId;
+public class SubmissionDto {
+    private UUID attachmentId;
+    private String fileName;
     private String submitterFirstName;
     private String submitterLastName;
     private String submitterEmail;
+    private ESubmissionStatus status;
 
-    public SubmissionLeaderboardDto() {
+    public SubmissionDto() {
     }
 
-    public SubmissionLeaderboardDto(UUID submissionId, String submitterFirstName, String submitterLastName,
-                                    String submitterEmail) {
-        this.submissionId = submissionId;
-        this.submitterFirstName = submitterFirstName;
-        this.submitterLastName = submitterLastName;
-        this.submitterEmail = submitterEmail;
+    public UUID getAttachmentId() {
+        return attachmentId;
     }
 
-    public UUID getSubmissionId() {
-        return submissionId;
+    public void setAttachmentId(UUID attachmentId) {
+        this.attachmentId = attachmentId;
     }
 
-    public void setSubmissionId(UUID submissionId) {
-        this.submissionId = submissionId;
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public String getSubmitterFirstName() {
@@ -49,5 +53,13 @@ public class SubmissionLeaderboardDto {
 
     public void setSubmitterEmail(String submitterEmail) {
         this.submitterEmail = submitterEmail;
+    }
+
+    public ESubmissionStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ESubmissionStatus status) {
+        this.status = status;
     }
 }

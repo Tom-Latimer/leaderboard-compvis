@@ -59,7 +59,8 @@ public class SubmissionServiceImpl implements SubmissionService {
     }
 
     @Override
-    public void uploadChallengeSubmission(Long challengeId, ChallengeSubmitUploadDto uploadDto, MultipartFile file) throws IOException {
+    public SubmissionDto uploadChallengeSubmission(Long challengeId, ChallengeSubmitUploadDto uploadDto,
+                                                   MultipartFile file) throws IOException {
         if (challengeId == null) {
             throw new BadRequestException("Challenge ID cannot be null");
         }
@@ -81,11 +82,14 @@ public class SubmissionServiceImpl implements SubmissionService {
         saveCsv(submissionsBucket, filepath, file);
 
         SubmissionMetadata metadata = new SubmissionMetadata(attachmentId, filepath, fileName, EMimeTypes.textCsv,
-                file.getSize(), challenge, uploadDto.getName(), uploadDto.getEmail(), ESubmissionStatus.PENDING);
+                file.getSize(), challenge, uploadDto.getFirstName(), uploadDto.getLastName(), uploadDto.getEmail(),
+                ESubmissionStatus.PENDING);
 
         submissionMetadataRepository.save(metadata);
 
         challenge.addSubmission(metadata);
+
+        return submissionMapper.toSubmissionDto(metadata);
     }
 
     @Override
