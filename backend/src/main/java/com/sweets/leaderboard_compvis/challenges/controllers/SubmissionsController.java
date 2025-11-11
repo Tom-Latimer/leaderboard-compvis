@@ -1,14 +1,18 @@
 package com.sweets.leaderboard_compvis.challenges.controllers;
 
 import com.sweets.leaderboard_compvis.challenges.models.DTO.FileDownloadDto;
+import com.sweets.leaderboard_compvis.challenges.models.ESubmissionStatus;
 import com.sweets.leaderboard_compvis.challenges.models.submissions.DTO.*;
 import com.sweets.leaderboard_compvis.challenges.services.ChallengeService;
 import com.sweets.leaderboard_compvis.challenges.services.SubmissionService;
+import com.sweets.leaderboard_compvis.infrastructure.exceptions.BadRequestException;
+import com.sweets.leaderboard_compvis.infrastructure.models.DTO.PagedResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -60,16 +64,30 @@ public class SubmissionsController {
     }
 
     @GetMapping("/challenges/{id}/submissions")
-    public ResponseEntity<List<SubmissionLeaderboardDto>> getSubmissionsByChallenge(
+    public ResponseEntity<PagedResponse<SubmissionLeaderboardDto>> getSubmissionsByChallenge(
             @PathVariable long id,
             @RequestParam int p,
-            @RequestParam int s
+            @RequestParam int s,
+            @RequestParam(required = false) String sort,
+            @RequestParam(defaultValue = "asc") String sortOrder
     ) {
-        Pageable pageable = PageRequest.of(p, s);
+        if (sort != null && !List.of("maxPrecision", "maxRecall", "split").contains(sort)) {
+            throw new BadRequestException("Sort field contains invalid input");
+        }
 
-        List<SubmissionLeaderboardDto> submissions = submissionService.getSubmissionsByChallengeIdPaged(id, pageable);
+        Sort sortBy = Sort.unsorted();
+        if (sort != null) {
+            sortBy = sortOrder.equalsIgnoreCase("desc") ? Sort.by(sort).descending() :
+                    Sort.by(sort).ascending();
+        }
 
-        return ResponseEntity.ok(submissions);
+        Pageable pageable = PageRequest.of(p, s, sortBy);
+
+        PagedResponse<SubmissionLeaderboardDto> pagedResponse = submissionService.getSubmissionsByChallengeIdPaged(id,
+                ESubmissionStatus.APPROVED,
+                pageable);
+
+        return ResponseEntity.ok(pagedResponse);
     }
 
     @GetMapping("/submissions")
@@ -83,9 +101,10 @@ public class SubmissionsController {
 
     @PostMapping("/submissions/{submissionId}/approve")
     public ResponseEntity<SubmissionStatusDto> approveSubmission(
-            @PathVariable UUID submissionId) {
+            @PathVariable UUID submissionId,
+            @Valid @RequestBody SubmissionApproveDto approveDto) {
 
-        SubmissionStatusDto response = submissionService.approveSubmission(submissionId);
+        SubmissionStatusDto response = submissionService.approveSubmission(submissionId, approveDto);
 
         return ResponseEntity.ok(response);
     }

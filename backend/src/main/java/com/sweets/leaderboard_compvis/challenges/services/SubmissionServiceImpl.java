@@ -15,6 +15,7 @@ import com.sweets.leaderboard_compvis.challenges.repositories.S3Repository;
 import com.sweets.leaderboard_compvis.challenges.repositories.SubmissionMetadataRepository;
 import com.sweets.leaderboard_compvis.challenges.repositories.specifications.SubmissionSpecifications;
 import com.sweets.leaderboard_compvis.infrastructure.exceptions.BadRequestException;
+import com.sweets.leaderboard_compvis.infrastructure.models.DTO.PagedResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +29,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class SubmissionServiceImpl implements SubmissionService {
@@ -50,10 +53,34 @@ public class SubmissionServiceImpl implements SubmissionService {
         this.challengeRepository = challengeRepository;
     }
 
-    public SubmissionStatusDto approveSubmission(UUID submissionId) {
-        return setSubmissionStatus(submissionId, ESubmissionStatus.APPROVED);
+    @Override
+    public SubmissionStatusDto approveSubmission(UUID submissionId, SubmissionApproveDto approveDto) {
+
+        if (submissionId == null) {
+            throw new IllegalArgumentException("Submission id cannot be null");
+        }
+
+        if (approveDto == null) {
+            throw new BadRequestException("Max precision, max recall and split are required");
+        }
+
+        SubmissionMetadata submission = submissionMetadataRepository.findByAttachmentId(submissionId)
+                .orElseThrow(() -> new SubmissionNotFoundException(submissionId));
+
+        ESubmissionStatus status = ESubmissionStatus.APPROVED;
+
+        submission.setSubmissionStatus(status);
+
+        submission.setMaxPrecision(approveDto.getMaxPrecision());
+        submission.setMaxRecall(approveDto.getMaxRecall());
+        submission.setSplit(approveDto.getSplit());
+
+        submissionMetadataRepository.save(submission);
+
+        return new SubmissionStatusDto(submissionId, status.name());
     }
 
+    @Override
     public SubmissionStatusDto rejectSubmission(UUID submissionId) {
         return setSubmissionStatus(submissionId, ESubmissionStatus.REJECTED);
     }
@@ -105,7 +132,9 @@ public class SubmissionServiceImpl implements SubmissionService {
     }
 
     @Override
-    public List<SubmissionLeaderboardDto> getSubmissionsByChallengeIdPaged(Long challengeId, Pageable pageable) {
+    public PagedResponse<SubmissionLeaderboardDto> getSubmissionsByChallengeIdPaged(Long challengeId,
+                                                                                    ESubmissionStatus status,
+                                                                                    Pageable pageable) {
         if (challengeId == null) {
             throw new BadRequestException("Challenge ID cannot be null");
         }
@@ -114,10 +143,33 @@ public class SubmissionServiceImpl implements SubmissionService {
             throw new ChallengeNotFoundException(challengeId);
         }
 
-        Page<SubmissionMetadata> page = submissionMetadataRepository.findSubmissionsByChallengeId(challengeId,
-                pageable);
+        Specification<SubmissionMetadata> spec = SubmissionSpecifications.statusEquals(status)
+                .and(SubmissionSpecifications.challengeIdEquals(challengeId));
 
-        return submissionMapper.toSubmissionLeaderboardDtoList(page.getContent());
+        Page<SubmissionMetadata> page = submissionMetadataRepository.findAll(spec, pageable);
+
+        final long baseRank = (long) page.getNumber() * page.getSize();
+
+        List<SubmissionLeaderboardDto> items = IntStream.range(0, page.getContent().size())
+                .mapToObj(i -> {
+                    //get entity and map into dto
+                    SubmissionMetadata entity = page.getContent().get(i);
+                    SubmissionLeaderboardDto item = submissionMapper.toSubmissionLeaderboardDto(entity);
+
+                    //assign rank according to page number
+                    item.setRank(baseRank + i);
+
+                    return item;
+                }).collect(Collectors.toList());
+
+        //response type is used for client side pagination
+        return new PagedResponse<>(
+                items,
+                page.getNumber(),
+                page.getTotalPages(),
+                page.getTotalElements(),
+                page.getSize()
+        );
     }
 
     public List<SubmissionListItemDto> getChallengeSubmissionsForModeration(SubmissionFilterDto filter,

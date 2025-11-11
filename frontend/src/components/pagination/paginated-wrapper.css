@@ -1,0 +1,43 @@
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    gap: 0.4rem;
+}
+
+.page-button, .page-list-item {
+    padding: 0.25rem;
+    color: var(--charcoal-colour);
+    background-color: var(--gray-colour-1);
+    border-radius: var(--radius-small);
+    border: none;
+}
+
+.page-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.page-button:disabled {
+    color: var(--charcoal-colour-disabled);
+}
+
+.page-button:not(:disabled):hover {
+    background-color: var(--gray-colour-2);
+}
+
+.page-button svg {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.page-list-item {
+    padding: 0.25rem 0.75rem;
+}

@@ -1,5 +1,6 @@
 package com.sweets.leaderboard_compvis.challenges.repositories.specifications;
 
+import com.sweets.leaderboard_compvis.challenges.models.ESubmissionStatus;
 import com.sweets.leaderboard_compvis.challenges.models.JPA.SubmissionMetadata;
 import com.sweets.leaderboard_compvis.challenges.models.submissions.DTO.SubmissionFilterDto;
 import jakarta.persistence.criteria.Predicate;
@@ -37,5 +38,13 @@ public class SubmissionSpecifications {
 
             return cb.and(predicates.toArray(new Predicate[0]));
         };
+    }
+
+    public static Specification<SubmissionMetadata> statusEquals(ESubmissionStatus status) {
+        return (root, query, cb) -> cb.equal(root.get("submissionStatus"), status);
+    }
+
+    public static Specification<SubmissionMetadata> challengeIdEquals(Long challengeId) {
+        return (root, query, cb) -> cb.equal(root.get("challenge").get("id"), challengeId);
     }
 }

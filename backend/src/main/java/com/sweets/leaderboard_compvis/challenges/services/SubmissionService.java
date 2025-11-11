@@ -1,7 +1,9 @@
 package com.sweets.leaderboard_compvis.challenges.services;
 
 import com.sweets.leaderboard_compvis.challenges.models.DTO.FileDownloadDto;
+import com.sweets.leaderboard_compvis.challenges.models.ESubmissionStatus;
 import com.sweets.leaderboard_compvis.challenges.models.submissions.DTO.*;
+import com.sweets.leaderboard_compvis.infrastructure.models.DTO.PagedResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +16,7 @@ import java.util.UUID;
 public interface SubmissionService {
     @Transactional
     @PreAuthorize("@auth.hasAnyRole('ADMIN', 'MODERATOR')")
-    SubmissionStatusDto approveSubmission(UUID submissionId);
+    SubmissionStatusDto approveSubmission(UUID submissionId, SubmissionApproveDto approveDto);
 
     @Transactional
     @PreAuthorize("@auth.hasAnyRole('ADMIN', 'MODERATOR')")
@@ -26,8 +28,9 @@ public interface SubmissionService {
     @PreAuthorize("@auth.hasAnyRole('ADMIN', 'MODERATOR')")
     FileDownloadDto downloadSubmission(UUID submissionId);
 
-
-    List<SubmissionLeaderboardDto> getSubmissionsByChallengeIdPaged(Long challengeId, Pageable pageable);
+    PagedResponse<SubmissionLeaderboardDto> getSubmissionsByChallengeIdPaged(Long challengeId,
+                                                                             ESubmissionStatus status,
+                                                                             Pageable pageable);
 
     @PreAuthorize("@auth.hasAnyRole('ADMIN', 'MODERATOR')")
     List<SubmissionListItemDto> getChallengeSubmissionsForModeration(SubmissionFilterDto filter,

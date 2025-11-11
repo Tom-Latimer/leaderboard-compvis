@@ -27,6 +27,15 @@ public class SubmissionMetadata extends FileMetadata {
     @Column(nullable = false)
     private ESubmissionStatus submissionStatus;
 
+    @Column
+    private Double maxPrecision;
+
+    @Column
+    private Double maxRecall;
+
+    @Column
+    private Double split;
+
     public SubmissionMetadata() {
     }
 
@@ -40,6 +49,21 @@ public class SubmissionMetadata extends FileMetadata {
         this.submitterLastName = submitterLastName;
         this.submitterEmail = submitterEmail;
         this.submissionStatus = submissionStatus;
+    }
+
+    public SubmissionMetadata(UUID attachmentId, String storageKey, String fileName, EMimeTypes contentType,
+                              long contentLength, Challenge challenge, String submitterFirstName,
+                              String submitterLastName, String submitterEmail, ESubmissionStatus submissionStatus,
+                              Double maxPrecision, Double maxRecall, Double split) {
+        super(attachmentId, storageKey, fileName, contentType, contentLength);
+        this.challenge = challenge;
+        this.submitterFirstName = submitterFirstName;
+        this.submitterLastName = submitterLastName;
+        this.submitterEmail = submitterEmail;
+        this.submissionStatus = submissionStatus;
+        this.maxPrecision = maxPrecision;
+        this.maxRecall = maxRecall;
+        this.split = split;
     }
 
     public Challenge getChallenge() {
@@ -80,5 +104,29 @@ public class SubmissionMetadata extends FileMetadata {
 
     public void setSubmissionStatus(ESubmissionStatus submissionStatus) {
         this.submissionStatus = submissionStatus;
+    }
+
+    public Double getMaxPrecision() {
+        return maxPrecision;
+    }
+
+    public void setMaxPrecision(Double maxPrecision) {
+        this.maxPrecision = maxPrecision;
+    }
+
+    public Double getMaxRecall() {
+        return maxRecall;
+    }
+
+    public void setMaxRecall(Double maxRecall) {
+        this.maxRecall = maxRecall;
+    }
+
+    public Double getSplit() {
+        return split;
+    }
+
+    public void setSplit(Double split) {
+        this.split = split;
     }
 }

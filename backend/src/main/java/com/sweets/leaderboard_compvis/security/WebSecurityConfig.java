@@ -67,7 +67,8 @@ public class WebSecurityConfig {
                                         "/api/challenges",
                                         "/api/challenges/*",
                                         "/api/challenges/*/datasets/*/download",
-                                        "/api/challenges/*/datasets").permitAll()
+                                        "/api/challenges/*/datasets",
+                                        "/api/challenges/*/submissions").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/challenges/*/submissions").permitAll()
                                 .anyRequest().authenticated());
 
