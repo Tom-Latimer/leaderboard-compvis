@@ -1,5 +1,7 @@
 import React from "react";
 import {Link, type LinkProps} from "@tanstack/react-router";
+import FileIcon from "../../../../assets/file.svg?react";
+import "./admin-sidebar.css";
 
 type NavLinkProps = LinkProps & {
     icon: React.ReactNode;
@@ -8,7 +10,7 @@ type NavLinkProps = LinkProps & {
 
 const NavLink = ({icon, children, ...rest}: NavLinkProps) => {
     return (
-        <Link className="nav-link" activeProps={{className: ""}} {...rest}>
+        <Link className="nav-link" activeProps={{className: "active"}} {...rest}>
             <span className="nav-link-icon">
                 {icon}
             </span>
@@ -32,10 +34,10 @@ const NavSection = ({heading, children}: { heading: string, children: React.Reac
 
 const AdminSidebar = () => {
     return (
-        <nav>
-            <NavSection heading="">
-                <NavLink icon={}>
-
+        <nav className="sidebar-nav">
+            <NavSection heading="Main">
+                <NavLink to="/admin/submissions" icon={<FileIcon/>}>
+                    Submissions
                 </NavLink>
             </NavSection>
         </nav>

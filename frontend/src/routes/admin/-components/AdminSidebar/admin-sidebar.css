@@ -1,1 +1,56 @@
+.sidebar-nav {
 
+    width: 200px;
+    position: sticky;
+    top: 0;
+
+    height: 100vh;
+
+    background: var(--primary-colour);
+    padding: 1.5rem 0;
+    border-right: 4px solid #2d4747;
+
+    overflow-y: auto;
+}
+
+.nav-section-heading, .nav-link {
+    padding: 0 1.5rem;
+}
+
+.nav-section .nav-section-heading {
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #7f9c9c;
+    margin-bottom: 0.6rem;
+}
+
+.nav-section .nav-section-content {
+
+}
+
+.nav-link, .nav-link:visited {
+    display: flex;
+    gap: 0.7rem;
+    text-decoration: none;
+    color: #f8f8ef;
+    align-items: center;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.nav-link.active {
+    color: var(--primary-colour);
+    background-color: #f8f8ef;
+}
+
+.nav-link .nav-link-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-link .nav-link-icon svg {
+    height: 1.2rem;
+    width: 1.2rem;
+}

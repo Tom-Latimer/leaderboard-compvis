@@ -1,9 +1,18 @@
-import { createFileRoute } from '@tanstack/react-router'
+import {createFileRoute, Outlet} from '@tanstack/react-router'
+import AdminSidebar from "./-components/AdminSidebar/AdminSidebar.tsx";
+import "./admin.css";
 
 export const Route = createFileRoute('/admin')({
-  component: RouteComponent,
+    component: RouteComponent,
 })
 
 function RouteComponent() {
-  return <div>Hello "/admin"!</div>
+    return (
+        <div className="page-container">
+            <AdminSidebar/>
+            <main className="main-content">
+                <Outlet/>
+            </main>
+        </div>
+    );
 }

@@ -9,11 +9,13 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as AuthRouteRouteImport } from './routes/_auth/route'
 import { Route as AppRouteRouteImport } from './routes/_app/route'
 import { Route as AppIndexRouteImport } from './routes/_app/index'
 import { Route as AuthSignupRouteImport } from './routes/_auth/signup'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
+import { Route as AdminSubmissionsIndexRouteImport } from './routes/admin/submissions/index'
 import { Route as AppProfileIndexRouteImport } from './routes/_app/profile/index'
 import { Route as AppChallengesIndexRouteImport } from './routes/_app/challenges/index'
 import { Route as AppChallengesChallengeIdRouteRouteImport } from './routes/_app/challenges/$challengeId/route'
@@ -22,6 +24,11 @@ import { Route as AppChallengesChallengeIdOverviewRouteImport } from './routes/_
 import { Route as AppChallengesChallengeIdLeaderboardRouteImport } from './routes/_app/challenges/$challengeId/leaderboard'
 import { Route as AppChallengesChallengeIdFilesRouteImport } from './routes/_app/challenges/$challengeId/files'
 
+const AdminRouteRoute = AdminRouteRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRouteRoute = AuthRouteRouteImport.update({
   id: '/_auth',
   getParentRoute: () => rootRouteImport,
@@ -44,6 +51,11 @@ const AuthLoginRoute = AuthLoginRouteImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => AuthRouteRoute,
+} as any)
+const AdminSubmissionsIndexRoute = AdminSubmissionsIndexRouteImport.update({
+  id: '/submissions/',
+  path: '/submissions/',
+  getParentRoute: () => AdminRouteRoute,
 } as any)
 const AppProfileIndexRoute = AppProfileIndexRouteImport.update({
   id: '/profile/',
@@ -87,24 +99,28 @@ const AppChallengesChallengeIdFilesRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
+  '/admin': typeof AdminRouteRouteWithChildren
   '/login': typeof AuthLoginRoute
   '/signup': typeof AuthSignupRoute
   '/': typeof AppIndexRoute
   '/challenges/$challengeId': typeof AppChallengesChallengeIdRouteRouteWithChildren
   '/challenges': typeof AppChallengesIndexRoute
   '/profile': typeof AppProfileIndexRoute
+  '/admin/submissions': typeof AdminSubmissionsIndexRoute
   '/challenges/$challengeId/files': typeof AppChallengesChallengeIdFilesRoute
   '/challenges/$challengeId/leaderboard': typeof AppChallengesChallengeIdLeaderboardRoute
   '/challenges/$challengeId/overview': typeof AppChallengesChallengeIdOverviewRoute
   '/challenges/$challengeId/submit': typeof AppChallengesChallengeIdSubmitRoute
 }
 export interface FileRoutesByTo {
+  '/admin': typeof AdminRouteRouteWithChildren
   '/login': typeof AuthLoginRoute
   '/signup': typeof AuthSignupRoute
   '/': typeof AppIndexRoute
   '/challenges/$challengeId': typeof AppChallengesChallengeIdRouteRouteWithChildren
   '/challenges': typeof AppChallengesIndexRoute
   '/profile': typeof AppProfileIndexRoute
+  '/admin/submissions': typeof AdminSubmissionsIndexRoute
   '/challenges/$challengeId/files': typeof AppChallengesChallengeIdFilesRoute
   '/challenges/$challengeId/leaderboard': typeof AppChallengesChallengeIdLeaderboardRoute
   '/challenges/$challengeId/overview': typeof AppChallengesChallengeIdOverviewRoute
@@ -114,12 +130,14 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_app': typeof AppRouteRouteWithChildren
   '/_auth': typeof AuthRouteRouteWithChildren
+  '/admin': typeof AdminRouteRouteWithChildren
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/signup': typeof AuthSignupRoute
   '/_app/': typeof AppIndexRoute
   '/_app/challenges/$challengeId': typeof AppChallengesChallengeIdRouteRouteWithChildren
   '/_app/challenges/': typeof AppChallengesIndexRoute
   '/_app/profile/': typeof AppProfileIndexRoute
+  '/admin/submissions/': typeof AdminSubmissionsIndexRoute
   '/_app/challenges/$challengeId/files': typeof AppChallengesChallengeIdFilesRoute
   '/_app/challenges/$challengeId/leaderboard': typeof AppChallengesChallengeIdLeaderboardRoute
   '/_app/challenges/$challengeId/overview': typeof AppChallengesChallengeIdOverviewRoute
@@ -128,24 +146,28 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/admin'
     | '/login'
     | '/signup'
     | '/'
     | '/challenges/$challengeId'
     | '/challenges'
     | '/profile'
+    | '/admin/submissions'
     | '/challenges/$challengeId/files'
     | '/challenges/$challengeId/leaderboard'
     | '/challenges/$challengeId/overview'
     | '/challenges/$challengeId/submit'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/admin'
     | '/login'
     | '/signup'
     | '/'
     | '/challenges/$challengeId'
     | '/challenges'
     | '/profile'
+    | '/admin/submissions'
     | '/challenges/$challengeId/files'
     | '/challenges/$challengeId/leaderboard'
     | '/challenges/$challengeId/overview'
@@ -154,12 +176,14 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_app'
     | '/_auth'
+    | '/admin'
     | '/_auth/login'
     | '/_auth/signup'
     | '/_app/'
     | '/_app/challenges/$challengeId'
     | '/_app/challenges/'
     | '/_app/profile/'
+    | '/admin/submissions/'
     | '/_app/challenges/$challengeId/files'
     | '/_app/challenges/$challengeId/leaderboard'
     | '/_app/challenges/$challengeId/overview'
@@ -169,10 +193,18 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   AppRouteRoute: typeof AppRouteRouteWithChildren
   AuthRouteRoute: typeof AuthRouteRouteWithChildren
+  AdminRouteRoute: typeof AdminRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_auth': {
       id: '/_auth'
       path: ''
@@ -207,6 +239,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/login'
       preLoaderRoute: typeof AuthLoginRouteImport
       parentRoute: typeof AuthRouteRoute
+    }
+    '/admin/submissions/': {
+      id: '/admin/submissions/'
+      path: '/submissions'
+      fullPath: '/admin/submissions'
+      preLoaderRoute: typeof AdminSubmissionsIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
     }
     '/_app/profile/': {
       id: '/_app/profile/'
@@ -315,9 +354,22 @@ const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
   AuthRouteRouteChildren,
 )
 
+interface AdminRouteRouteChildren {
+  AdminSubmissionsIndexRoute: typeof AdminSubmissionsIndexRoute
+}
+
+const AdminRouteRouteChildren: AdminRouteRouteChildren = {
+  AdminSubmissionsIndexRoute: AdminSubmissionsIndexRoute,
+}
+
+const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
+  AdminRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   AppRouteRoute: AppRouteRouteWithChildren,
   AuthRouteRoute: AuthRouteRouteWithChildren,
+  AdminRouteRoute: AdminRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

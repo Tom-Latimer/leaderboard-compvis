@@ -4,6 +4,7 @@ import {getChallengeById} from "../../../../api/challenges/challengeApi.ts";
 
 export const Route = createFileRoute('/_app/challenges/$challengeId')({
     component: RouteComponent,
+    notFoundComponent: NotFoundComponent,
     loader: async ({params}) => {
         const challengeId = params.challengeId;
         return await getChallengeById(challengeId);
@@ -39,5 +40,17 @@ function RouteComponent() {
             </div>
             <Outlet/>
         </>
+    );
+}
+
+function NotFoundComponent() {
+
+    const {challengeId} = Route.useParams()
+    return (
+        <div>
+            <p>
+                Sorry! The challenge with id {challengeId} could not be found
+            </p>
+        </div>
     );
 }

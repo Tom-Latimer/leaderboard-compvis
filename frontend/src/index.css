@@ -43,6 +43,58 @@ body {
     margin-right: auto;
 }
 
+.not-found-page {
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    /*justify-content: center;*/
+    align-items: center;
+
+    padding: 5rem;
+}
+
+.not-found-page .heading {
+    line-height: 1;
+    font-size: 20rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+
+    color: darkslategrey;
+}
+
+.not-found-page .subheading {
+    font-weight: 600;
+    line-height: 1;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.not-found-page .text {
+    font-weight: 500;
+    font-size: 1.5rem;
+    margin-bottom: 3rem;
+    color: var(--charcoal-colour);
+}
+
+.not-found-page .link-button {
+    width: fit-content;
+    border-radius: var(--radius-small);
+    border: none;
+    padding: 0.5rem 3rem;
+    background-color: var(--primary-btn-bg-colour);
+}
+
+.not-found-page .link-button a, .not-found-page .link-button a:visited {
+    font-size: 1.1rem;
+    color: white;
+    text-decoration: none;
+}
+
+.not-found-page .link-button:hover {
+    background-color: var(--primary-btn-bg-colour-hover);
+}
+
 @media (min-width: 1280px) {
     .page-content {
         max-width: 1200px;

@@ -155,9 +155,11 @@ public class SubmissionServiceImpl implements SubmissionService {
     }
 
     @Override
-    public PagedResponse<SubmissionLeaderboardDto> getSubmissionsByChallengeIdPaged(Long challengeId,
-                                                                                    ESubmissionStatus status,
-                                                                                    Pageable pageable) {
+    public PagedResponse<SubmissionLeaderboardDto> getSubmissionsByChallengeIdPaged(
+            Long challengeId,
+            ESubmissionStatus status,
+            Pageable pageable) {
+        
         if (challengeId == null) {
             throw new BadRequestException("Challenge ID cannot be null");
         }
