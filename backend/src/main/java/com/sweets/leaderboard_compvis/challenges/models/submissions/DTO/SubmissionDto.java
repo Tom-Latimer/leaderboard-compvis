@@ -7,9 +7,9 @@ import java.util.UUID;
 public class SubmissionDto {
     private UUID attachmentId;
     private String fileName;
-    private String submitterFirstName;
-    private String submitterLastName;
-    private String submitterEmail;
+    private String teamName;
+    private String organization;
+
     private ESubmissionStatus status;
 
     public SubmissionDto() {
@@ -31,28 +31,20 @@ public class SubmissionDto {
         this.fileName = fileName;
     }
 
-    public String getSubmitterFirstName() {
-        return submitterFirstName;
+    public String getTeamName() {
+        return teamName;
     }
 
-    public void setSubmitterFirstName(String submitterFirstName) {
-        this.submitterFirstName = submitterFirstName;
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
     }
 
-    public String getSubmitterLastName() {
-        return submitterLastName;
+    public String getOrganization() {
+        return organization;
     }
 
-    public void setSubmitterLastName(String submitterLastName) {
-        this.submitterLastName = submitterLastName;
-    }
-
-    public String getSubmitterEmail() {
-        return submitterEmail;
-    }
-
-    public void setSubmitterEmail(String submitterEmail) {
-        this.submitterEmail = submitterEmail;
+    public void setOrganization(String organization) {
+        this.organization = organization;
     }
 
     public ESubmissionStatus getStatus() {

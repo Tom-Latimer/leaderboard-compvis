@@ -1,6 +1,6 @@
 export interface ApiError {
-    message: string;
     status: number;
-    error: string;
+    errorCode: string;
     timestamp: string;
+    validationErrors?: Record<string, string>;
 }

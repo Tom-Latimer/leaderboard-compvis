@@ -1,31 +1,34 @@
 package com.sweets.leaderboard_compvis.infrastructure.models.DTO;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.time.Instant;
+import java.util.Map;
 
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ErrorResponse {
 
-    private String message;
     private int status;
-    private String error;
+    private String errorCode;
     private Instant timestamp;
+
+    private Map<String, String> validationErrors;
 
     public ErrorResponse() {
     }
 
-    public ErrorResponse(String message, int status, String error, Instant timestamp) {
-        this.message = message;
+    public ErrorResponse(int status, String errorCode, Instant timestamp) {
         this.status = status;
-        this.error = error;
+        this.errorCode = errorCode;
         this.timestamp = timestamp;
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
+    public ErrorResponse(int status, String errorCode, Instant timestamp,
+                         Map<String, String> validationErrors) {
+        this.status = status;
+        this.errorCode = errorCode;
+        this.timestamp = timestamp;
+        this.validationErrors = validationErrors;
     }
 
     public int getStatus() {
@@ -36,12 +39,12 @@ public class ErrorResponse {
         this.status = status;
     }
 
-    public String getError() {
-        return error;
+    public String getErrorCode() {
+        return errorCode;
     }
 
-    public void setError(String error) {
-        this.error = error;
+    public void setErrorCode(String errorCode) {
+        this.errorCode = errorCode;
     }
 
     public Instant getTimestamp() {
@@ -50,5 +53,13 @@ public class ErrorResponse {
 
     public void setTimestamp(Instant timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public Map<String, String> getValidationErrors() {
+        return validationErrors;
+    }
+
+    public void setValidationErrors(Map<String, String> validationErrors) {
+        this.validationErrors = validationErrors;
     }
 }

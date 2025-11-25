@@ -5,8 +5,7 @@ import org.springframework.http.HttpStatus;
 
 public class SubmissionAlreadyExistsException extends BaseException {
 
-    public SubmissionAlreadyExistsException(Long challengeId, String email) {
-        super(String.format("Submission for challenge %d with email %s already exists", challengeId, email),
-                HttpStatus.CONFLICT);
+    public SubmissionAlreadyExistsException(String message, ESubmissionErrorCodes errorCode) {
+        super(message, HttpStatus.CONFLICT, errorCode.getErrorCode());
     }
 }

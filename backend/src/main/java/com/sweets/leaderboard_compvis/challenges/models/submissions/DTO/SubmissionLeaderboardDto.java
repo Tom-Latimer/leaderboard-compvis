@@ -4,9 +4,8 @@ import java.util.UUID;
 
 public class SubmissionLeaderboardDto {
     private UUID submissionId;
-    private String submitterFirstName;
-    private String submitterLastName;
-    private String submitterEmail;
+    private String organization;
+    private String teamName;
     private Double maxPrecision;
     private Double maxRecall;
     private Double split;
@@ -15,13 +14,11 @@ public class SubmissionLeaderboardDto {
     public SubmissionLeaderboardDto() {
     }
 
-    public SubmissionLeaderboardDto(UUID submissionId, String submitterFirstName, String submitterLastName,
-                                    String submitterEmail, Double maxPrecision, Double maxRecall, Double split,
-                                    Long rank) {
+    public SubmissionLeaderboardDto(UUID submissionId, String organization, String teamName, Double maxPrecision,
+                                    Double maxRecall, Double split, Long rank) {
         this.submissionId = submissionId;
-        this.submitterFirstName = submitterFirstName;
-        this.submitterLastName = submitterLastName;
-        this.submitterEmail = submitterEmail;
+        this.organization = organization;
+        this.teamName = teamName;
         this.maxPrecision = maxPrecision;
         this.maxRecall = maxRecall;
         this.split = split;
@@ -36,28 +33,20 @@ public class SubmissionLeaderboardDto {
         this.submissionId = submissionId;
     }
 
-    public String getSubmitterFirstName() {
-        return submitterFirstName;
+    public String getOrganization() {
+        return organization;
     }
 
-    public void setSubmitterFirstName(String submitterFirstName) {
-        this.submitterFirstName = submitterFirstName;
+    public void setOrganization(String organization) {
+        this.organization = organization;
     }
 
-    public String getSubmitterLastName() {
-        return submitterLastName;
+    public String getTeamName() {
+        return teamName;
     }
 
-    public void setSubmitterLastName(String submitterLastName) {
-        this.submitterLastName = submitterLastName;
-    }
-
-    public String getSubmitterEmail() {
-        return submitterEmail;
-    }
-
-    public void setSubmitterEmail(String submitterEmail) {
-        this.submitterEmail = submitterEmail;
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
     }
 
     public Double getMaxPrecision() {

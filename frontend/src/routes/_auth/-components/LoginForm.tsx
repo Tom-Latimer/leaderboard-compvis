@@ -1,8 +1,7 @@
 import './login.css';
-import '../../styles/utility.css';
 import {Link, useNavigate} from "@tanstack/react-router";
 import React, {useState} from "react";
-import {useAuth} from "./AuthProvider.tsx";
+import {useAuth} from "../../../components/auth/AuthProvider.tsx";
 
 const LoginForm = () => {
     const [email, setEmail] = useState('');

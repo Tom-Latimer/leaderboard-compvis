@@ -35,4 +35,6 @@ public interface SubmissionService {
     @PreAuthorize("@auth.hasAnyRole('ADMIN', 'MODERATOR')")
     List<SubmissionListItemDto> getChallengeSubmissionsForModeration(SubmissionFilterDto filter,
                                                                      Pageable pageable);
+
+    SubmissionLeaderboardDetailsDto getSubmissionDetails(UUID submissionId);
 }

@@ -1,7 +1,14 @@
+.form-container {
+    display: flex;
+    justify-content: center;
+}
+
 .challenge-submit-form {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+
+    flex-grow: 1;
 }
 
 .horizontal-form-control {
@@ -16,23 +23,24 @@
     gap: 0.5rem;
 }
 
-.form-control label {
+.form-control label, .team-member-table th {
     font-size: 0.8rem;
     font-weight: 600;
 }
 
-.form-control input {
+.form-control input, .team-member-table input {
     border-radius: 4px;
-    border: 1px solid whitesmoke;
+    border: 1px solid var(--gray-colour-3);
     padding: 0.5rem 0.75rem;
     line-height: 1;
+    width: 100%;
 }
 
-.form-button {
+.form-btn {
     width: 100%;
-    border-radius: 4px;
+    border-radius: var(--radius-small);
     border: none;
-    padding: 0.5rem 0;
+    padding: 0.5rem 0.75rem;
     background-color: var(--primary-btn-bg-colour);
     color: white;
 }
@@ -50,6 +58,117 @@
     font-size: 0.75rem;
 }
 
-.w-50 {
-    width: 50%;
+.team-member-container {
+    border: 2px solid var(--gray-colour-2);
+    border-radius: var(--radius-small);
+}
+
+.team-member-header {
+    border-bottom: 2px solid var(--gray-colour-2);
+    background-color: var(--gray-colour-1);
+    padding: 1.25rem 0.75rem;
+}
+
+.table-wrapper {
+    padding: 1rem;
+}
+
+.team-member-table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    padding: 0 1.5rem;
+    margin-bottom: 0.5rem;
+
+    table-layout: fixed;
+}
+
+.team-member-table td, th {
+    border: none;
+    text-align: left;
+    vertical-align: middle;
+    color: var(--charcoal-colour);
+}
+
+.team-member-table td {
+    padding: 0.35rem 0.75rem;
+}
+
+.team-member-table th {
+    padding: 0.25rem 0.75rem 0.25rem 0.75rem;
+}
+
+.team-member-table tbody tr:first-child td {
+    padding-top: 0;
+}
+
+.team-member-table th:nth-child(1),
+.team-member-table td:nth-child(1) {
+    width: 26%;
+}
+
+.team-member-table th:nth-child(2),
+.team-member-table td:nth-child(2) {
+    width: 26%;
+}
+
+.team-member-table th:nth-child(3),
+.team-member-table td:nth-child(3) {
+    width: 26%;
+}
+
+.team-member-table th:nth-child(4),
+.team-member-table td:nth-child(4) {
+    width: 11%;
+}
+
+.team-member-table th:nth-child(5),
+.team-member-table td:nth-child(5) {
+    width: 11%;
+}
+
+.team-member-table .error-row td {
+    padding-top: 0;
+}
+
+.trash-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-medium);
+    padding: 0.3rem;
+    border: 2px solid var(--gray-colour-2);
+    background-color: #f5f5f5;
+}
+
+.trash-button:disabled {
+    background-color: #fcfcfc;
+    border: 2px solid var(--gray-colour-1);
+}
+
+.trash-button:not(:disabled):hover {
+    background-color: #e7e7e7;
+}
+
+.trash-button:hover svg {
+    color: var(--red-2);
+}
+
+.trash-button svg {
+    color: var(--red-1);
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+.trash-button:disabled svg {
+    color: #cbcbcb;
+}
+
+.add-more-btn {
+    margin-left: 0.75rem;
+    width: auto;
+}
+
+.team-member-table .text-center {
+    text-align: center;
 }

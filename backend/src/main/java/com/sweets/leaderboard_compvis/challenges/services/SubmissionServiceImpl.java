@@ -1,6 +1,7 @@
 package com.sweets.leaderboard_compvis.challenges.services;
 
 import com.sweets.leaderboard_compvis.challenges.exceptions.ChallengeNotFoundException;
+import com.sweets.leaderboard_compvis.challenges.exceptions.ESubmissionErrorCodes;
 import com.sweets.leaderboard_compvis.challenges.exceptions.SubmissionAlreadyExistsException;
 import com.sweets.leaderboard_compvis.challenges.exceptions.SubmissionNotFoundException;
 import com.sweets.leaderboard_compvis.challenges.models.DTO.FileDownloadDto;
@@ -13,6 +14,7 @@ import com.sweets.leaderboard_compvis.challenges.models.submissions.DTO.*;
 import com.sweets.leaderboard_compvis.challenges.repositories.ChallengeRepository;
 import com.sweets.leaderboard_compvis.challenges.repositories.S3Repository;
 import com.sweets.leaderboard_compvis.challenges.repositories.SubmissionMetadataRepository;
+import com.sweets.leaderboard_compvis.challenges.repositories.SubmissionTeamMemberRepository;
 import com.sweets.leaderboard_compvis.challenges.repositories.specifications.SubmissionSpecifications;
 import com.sweets.leaderboard_compvis.infrastructure.exceptions.BadRequestException;
 import com.sweets.leaderboard_compvis.infrastructure.models.DTO.PagedResponse;
@@ -41,13 +43,16 @@ public class SubmissionServiceImpl implements SubmissionService {
     private final ChallengeRepository challengeRepository;
     private final S3Repository s3Repository;
     private final SubmissionMetadataRepository submissionMetadataRepository;
+    private final SubmissionTeamMemberRepository submissionTeamMemberRepository;
     private final SubmissionMapper submissionMapper;
 
     @Autowired
     public SubmissionServiceImpl(SubmissionMetadataRepository submissionMetadataRepository,
+                                 SubmissionTeamMemberRepository submissionTeamMemberRepository,
                                  SubmissionMapper submissionMapper,
                                  S3Repository s3Repository, ChallengeRepository challengeRepository) {
         this.submissionMetadataRepository = submissionMetadataRepository;
+        this.submissionTeamMemberRepository = submissionTeamMemberRepository;
         this.submissionMapper = submissionMapper;
         this.s3Repository = s3Repository;
         this.challengeRepository = challengeRepository;
@@ -95,26 +100,44 @@ public class SubmissionServiceImpl implements SubmissionService {
         Challenge challenge = challengeRepository.findById(challengeId)
                 .orElseThrow(() -> new ChallengeNotFoundException(challengeId));
 
-        if (submissionMetadataRepository.existsByChallengeIdAndSubmitterEmail(challengeId, uploadDto.getEmail())) {
-            throw new SubmissionAlreadyExistsException(challengeId, uploadDto.getEmail());
+        //check if team name has been used for the challenge already
+        if (submissionMetadataRepository.existsByChallengeIdAndTeamName(challengeId, uploadDto.getTeamName())) {
+            throw new SubmissionAlreadyExistsException(String.format("Submission already exists for challenge %d with" +
+                    " team name %s", challengeId, uploadDto.getTeamName()),
+                    ESubmissionErrorCodes.TeamNameAlreadyExists);
+        }
+
+        if (uploadDto.getTeamMembers() == null || uploadDto.getTeamMembers().isEmpty()) {
+            throw new BadRequestException("Team members cannot be empty");
+        }
+
+        //get the email address of the team's primary contact
+        String contactEmail = uploadDto.getTeamMembers().stream()
+                .filter(member -> member.getIsContact() != null && member.getIsContact())
+                .findFirst()
+                .orElseThrow(() -> new BadRequestException("No primary contact for team found"))
+                .getEmail();
+
+        //check if primary contact has been used for another submission for the challenge
+        if (submissionTeamMemberRepository.isContactEmailTakenForChallenge(challengeId, contactEmail)) {
+            throw new SubmissionAlreadyExistsException(String.format("Submission already exists for challenge %d with" +
+                    " primary contact email %s", challengeId, contactEmail),
+                    ESubmissionErrorCodes.ContactEmailAlreadyExists);
         }
 
         UUID attachmentId = UUID.randomUUID();
 
         //make filepath to store csv
         String fileName = StringUtils.strip(file.getOriginalFilename());
-        String filepath = String.format("%d/%s/%s", challengeId, attachmentId, fileName);
+        String filePath = String.format("%d/%s/%s", challengeId, attachmentId, fileName);
 
         //save to s3
-        saveCsv(submissionsBucket, filepath, file);
+        saveCsv(submissionsBucket, filePath, file);
 
-        SubmissionMetadata metadata = new SubmissionMetadata(attachmentId, filepath, fileName, EMimeTypes.textCsv,
-                file.getSize(), challenge, uploadDto.getFirstName(), uploadDto.getLastName(), uploadDto.getEmail(),
-                ESubmissionStatus.PENDING);
+        SubmissionMetadata metadata = submissionMapper.toSubmissionMetadata(uploadDto, challenge, attachmentId,
+                filePath, fileName, EMimeTypes.textCsv, file.getSize(), ESubmissionStatus.PENDING);
 
         submissionMetadataRepository.save(metadata);
-
-        challenge.addSubmission(metadata);
 
         return submissionMapper.toSubmissionDto(metadata);
     }
@@ -179,6 +202,18 @@ public class SubmissionServiceImpl implements SubmissionService {
         Page<SubmissionMetadata> page = submissionMetadataRepository.findAll(spec, pageable);
 
         return submissionMapper.toSubmissionListItemDtoList(page.getContent());
+    }
+
+    @Override
+    public SubmissionLeaderboardDetailsDto getSubmissionDetails(UUID submissionId) {
+        if (submissionId == null) {
+            throw new BadRequestException("Submission ID cannot be null");
+        }
+
+        SubmissionMetadata metadata = submissionMetadataRepository.findByAttachmentId(submissionId)
+                .orElseThrow(() -> new SubmissionNotFoundException(submissionId));
+
+        return submissionMapper.toSubmissionLeaderboardDetailsDto(metadata);
     }
 
     private String saveCsv(String bucket, String filepath, MultipartFile file) throws IOException {

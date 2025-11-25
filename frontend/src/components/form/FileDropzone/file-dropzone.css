@@ -53,12 +53,12 @@
     gap: 1rem;
     width: 100%;
     border-radius: 4px;
-    border: 2px solid lightgray;
+    border: 2px solid var(--gray-colour-2);
     padding: 1rem 1rem;
 }
 
 .uploaded-files-list h4 {
-
+    color: var(--charcoal-colour);
 }
 
 .file-info {

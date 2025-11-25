@@ -99,6 +99,19 @@ public class SubmissionsController {
         return ResponseEntity.ok(submissions);
     }
 
+    @GetMapping("/submissions/{submissionId}")
+    public ResponseEntity<SubmissionLeaderboardDetailsDto> getSubmissionDetails(
+            @PathVariable UUID submissionId) {
+
+        if (submissionId == null) {
+            throw new BadRequestException("Submission ID is required");
+        }
+
+        SubmissionLeaderboardDetailsDto details = submissionService.getSubmissionDetails(submissionId);
+
+        return ResponseEntity.ok(details);
+    }
+
     @PostMapping("/submissions/{submissionId}/approve")
     public ResponseEntity<SubmissionStatusDto> approveSubmission(
             @PathVariable UUID submissionId,

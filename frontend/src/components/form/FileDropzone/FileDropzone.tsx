@@ -1,8 +1,7 @@
 import {Controller, type FieldValues, type Path, useFormContext} from "react-hook-form";
 import UploadIcon from "../../../assets/upload.svg?react";
 import CheckFileIcon from "../../../assets/check-file.svg?react";
-import CrossIcon from "../../../assets/circled-x.svg?react"
-import "../../../styles/utility.css";
+import CrossIcon from "../../../assets/circled-x.svg?react";
 import "./file-dropzone.css";
 import React from "react";
 

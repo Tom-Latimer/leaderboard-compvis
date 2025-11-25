@@ -1,7 +1,8 @@
 import api from "../axios.ts";
 import type {SubmissionUploadResponse} from "../../types/submissions/submissionUploadResponse.ts";
-import {SubmissionLeaderboardItem} from "../../types/submissions/submissionLeaderboardItem.ts";
+import type {SubmissionLeaderboardItem} from "../../types/submissions/submissionLeaderboardItem.ts";
 import type {PagedResponse} from "../../types/pagination/pagedResponse.ts";
+import type {Submission} from "../../types/submissions/submission.ts";
 
 export const postChallengeSubmission = async (challengeId: string, formData: FormData): Promise<SubmissionUploadResponse[]> => {
     const result = await api.post(`/challenges/${challengeId}/submissions`, formData,
@@ -32,11 +33,19 @@ export const getSubmissionsByChallenge = async (
         signal: signal,
     });
 
-    const mappedContent = result.data.content.map(
-        (d: any) =>
-            new SubmissionLeaderboardItem(d.submissionId, d.submitterFirstName, d.submitterLastName,
-                d.submitterEmail, d.maxPrecision, d.maxRecall, d.split, d.rank)
-    );
+    return {...result.data, content: result.data.content};
+}
 
-    return {...result.data, content: mappedContent};
+export const getSubmissionDetails = async (
+    submissionId: string,
+    signal: AbortSignal): Promise<Submission> => {
+
+    const result = await api.get(`/submissions/${submissionId}`, {
+        params: {
+            id: submissionId,
+        },
+        signal: signal,
+    });
+
+    return result.data;
 }

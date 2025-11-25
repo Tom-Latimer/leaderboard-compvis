@@ -5,6 +5,6 @@ import org.springframework.http.HttpStatus;
 
 public class ChallengeNotFoundException extends BaseException {
     public ChallengeNotFoundException(Long challengeId) {
-        super(String.format("Challenge with ID %d not found", challengeId), HttpStatus.NOT_FOUND);
+        super(String.format("Challenge with ID %d not found", challengeId), HttpStatus.NOT_FOUND, "ERR_CHALL_NF");
     }
 }

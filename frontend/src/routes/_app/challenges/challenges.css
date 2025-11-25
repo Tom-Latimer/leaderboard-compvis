@@ -8,6 +8,8 @@
 
 .tabbed-nav {
     border-bottom: darkgray 2px solid;
+    display: flex;
+    justify-content: space-between;
 }
 
 .tabbed-nav-link, .tabbed-nav-link:visited {

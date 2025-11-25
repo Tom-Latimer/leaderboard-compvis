@@ -46,9 +46,8 @@ create table if not exists submission_metadata (
     id serial primary key,
     attachment_id uuid unique not null,
     challenge_id INTEGER references challenges(id),
-    submitter_first_name varchar(20) not null,
-    submitter_last_name varchar(50) not null,
-    submitter_email varchar(50) not null,
+    team_name varchar(50) not null,
+    organization varchar(50) not null,
     submission_status varchar(20) not null default 'PENDING',
     max_precision double precision,
     max_recall double precision,
@@ -58,11 +57,21 @@ create table if not exists submission_metadata (
     content_type varchar(50) not null,
     content_length integer not null,
     created_at timestamptz not null,
-    updated_at timestamptz not null
+    updated_at timestamptz not null,
+    unique (challenge_id, team_name)
 );
 
 create table if not exists user_roles (
     user_id INTEGER references users(id),
     role_id INTEGER references roles(id),
     primary key (user_id, role_id)
+);
+
+create table if not exists submission_team_members (
+    id serial primary key,
+    submission_id integer references submission_metadata(id),
+    first_name varchar(20) not null,
+    last_name varchar(50) not null,
+    email varchar(50),
+    is_contact boolean not null default false
 );

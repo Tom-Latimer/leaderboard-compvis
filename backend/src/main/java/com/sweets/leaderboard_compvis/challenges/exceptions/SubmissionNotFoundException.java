@@ -7,6 +7,6 @@ import java.util.UUID;
 
 public class SubmissionNotFoundException extends BaseException {
     public SubmissionNotFoundException(UUID submissionId) {
-        super(String.format("Submission with ID %s not found", submissionId), HttpStatus.NOT_FOUND);
+        super(String.format("Submission with ID %s not found", submissionId), HttpStatus.NOT_FOUND, "ERR_SUB_NF");
     }
 }

@@ -1,4 +1,3 @@
-import '../../../../styles/utility.css';
 import '../challenges.css';
 import {createFileRoute, Link, Outlet} from '@tanstack/react-router'
 import {getChallengeById} from "../../../../api/challenges/challengeApi.ts";
@@ -15,14 +14,14 @@ function RouteComponent() {
     const challenge = Route.useLoaderData();
 
     if (!challenge) {
-        return (<div>heem</div>);
+        return (<div>Could not load challenge details</div>);
     }
 
     return (
         <>
             <h2>{challenge.title}</h2>
             <div className="tabbed-container">
-                <div className="tabbed-nav flex justify-between">
+                <div className="tabbed-nav">
                     <Link to="/challenges/$challengeId/overview" params={{challengeId: challenge.id}}
                           className="tabbed-nav-link"
                           activeProps={{className: "tabbed-nav-link-active"}}>Overview</Link>
@@ -33,7 +32,7 @@ function RouteComponent() {
                           className="tabbed-nav-link"
                           activeProps={{className: "tabbed-nav-link-active"}}>Leaderboard</Link>
                 </div>
-                <div className="tabbed-nav flex">
+                <div className="tabbed-nav">
                     <Link to="/challenges/$challengeId/submit" params={{challengeId: challenge.id}}
                           className="tabbed-nav-link" activeProps={{className: "tabbed-nav-link-active"}}>Submit</Link>
                 </div>

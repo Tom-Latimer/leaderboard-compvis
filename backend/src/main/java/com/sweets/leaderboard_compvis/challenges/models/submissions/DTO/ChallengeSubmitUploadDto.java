@@ -1,45 +1,56 @@
 package com.sweets.leaderboard_compvis.challenges.models.submissions.DTO;
 
-import jakarta.validation.constraints.Email;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+import java.util.List;
 
 public class ChallengeSubmitUploadDto {
 
     @NotBlank
-    private String firstName;
+    @Size(max = 50, message = "Team name cannot be longer than 50 characters.")
+    private String teamName;
 
     @NotBlank
-    private String lastName;
+    @Size(max = 50, message = "Organization cannot be longer than 50 characters.")
+    private String organization;
 
-    @Email
-    @NotBlank
-    private String email;
+    @Valid
+    @Size(min = 1, message = "Submission must have at least one team member.")
+    private List<SubmissionTeamMemberDto> teamMembers;
 
     public ChallengeSubmitUploadDto() {
 
     }
 
-    public String getFirstName() {
-        return firstName;
+    public ChallengeSubmitUploadDto(String teamName, String organization, List<SubmissionTeamMemberDto> teamMembers) {
+        this.teamName = teamName;
+        this.organization = organization;
+        this.teamMembers = teamMembers;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public String getTeamName() {
+        return teamName;
     }
 
-    public String getLastName() {
-        return lastName;
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public String getOrganization() {
+        return organization;
     }
 
-    public String getEmail() {
-        return email;
+    public void setOrganization(String organization) {
+        this.organization = organization;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public List<SubmissionTeamMemberDto> getTeamMembers() {
+        return teamMembers;
+    }
+
+    public void setTeamMembers(List<SubmissionTeamMemberDto> teamMembers) {
+        this.teamMembers = teamMembers;
     }
 }

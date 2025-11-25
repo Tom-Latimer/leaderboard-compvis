@@ -4,6 +4,8 @@ import com.sweets.leaderboard_compvis.challenges.models.EMimeTypes;
 import com.sweets.leaderboard_compvis.challenges.models.ESubmissionStatus;
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -11,17 +13,18 @@ import java.util.UUID;
 public class SubmissionMetadata extends FileMetadata {
 
     @ManyToOne
-    @JoinColumn(name = "challenge_id", referencedColumnName = "id")
+    @JoinColumn(name = "challenge_id", referencedColumnName = "id", nullable = false)
     private Challenge challenge;
 
     @Column(nullable = false)
-    private String submitterFirstName;
+    private String teamName;
 
     @Column(nullable = false)
-    private String submitterLastName;
+    private String organization;
 
-    @Column(nullable = false)
-    private String submitterEmail;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "submissionMetadata", cascade = CascadeType.ALL, orphanRemoval =
+            true)
+    private Set<SubmissionTeamMember> submissionTeamMembers = new HashSet<>();
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -40,26 +43,27 @@ public class SubmissionMetadata extends FileMetadata {
     }
 
     public SubmissionMetadata(UUID attachmentId, String storageKey, String fileName, EMimeTypes contentType,
-                              long contentLength, Challenge challenge, String submitterFirstName,
-                              String submitterLastName, String submitterEmail,
+                              long contentLength, Challenge challenge, String teamName,
+                              String organization, Set<SubmissionTeamMember> submissionTeamMembers,
                               ESubmissionStatus submissionStatus) {
         super(attachmentId, storageKey, fileName, contentType, contentLength);
         this.challenge = challenge;
-        this.submitterFirstName = submitterFirstName;
-        this.submitterLastName = submitterLastName;
-        this.submitterEmail = submitterEmail;
+        this.teamName = teamName;
+        this.organization = organization;
+        this.submissionTeamMembers = submissionTeamMembers;
         this.submissionStatus = submissionStatus;
     }
 
     public SubmissionMetadata(UUID attachmentId, String storageKey, String fileName, EMimeTypes contentType,
-                              long contentLength, Challenge challenge, String submitterFirstName,
-                              String submitterLastName, String submitterEmail, ESubmissionStatus submissionStatus,
+                              long contentLength, Challenge challenge, String teamName,
+                              String organization, Set<SubmissionTeamMember> submissionTeamMembers,
+                              ESubmissionStatus submissionStatus,
                               Double maxPrecision, Double maxRecall, Double split) {
         super(attachmentId, storageKey, fileName, contentType, contentLength);
         this.challenge = challenge;
-        this.submitterFirstName = submitterFirstName;
-        this.submitterLastName = submitterLastName;
-        this.submitterEmail = submitterEmail;
+        this.teamName = teamName;
+        this.organization = organization;
+        this.submissionTeamMembers = submissionTeamMembers;
         this.submissionStatus = submissionStatus;
         this.maxPrecision = maxPrecision;
         this.maxRecall = maxRecall;
@@ -74,28 +78,28 @@ public class SubmissionMetadata extends FileMetadata {
         this.challenge = challenge;
     }
 
-    public String getSubmitterFirstName() {
-        return submitterFirstName;
+    public String getTeamName() {
+        return teamName;
     }
 
-    public void setSubmitterFirstName(String submitterName) {
-        submitterName = submitterName;
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
     }
 
-    public String getSubmitterLastName() {
-        return submitterLastName;
+    public String getOrganization() {
+        return organization;
     }
 
-    public void setSubmitterLastName(String submitterLastName) {
-        this.submitterLastName = submitterLastName;
+    public void setOrganization(String organization) {
+        this.organization = organization;
     }
 
-    public String getSubmitterEmail() {
-        return submitterEmail;
+    public Set<SubmissionTeamMember> getSubmissionTeamMembers() {
+        return submissionTeamMembers;
     }
 
-    public void setSubmitterEmail(String submitterEmail) {
-        submitterEmail = submitterEmail;
+    public void setSubmissionTeamMembers(Set<SubmissionTeamMember> submissionTeamMembers) {
+        this.submissionTeamMembers = submissionTeamMembers;
     }
 
     public ESubmissionStatus getSubmissionStatus() {

@@ -1,6 +1,5 @@
 import {createFileRoute} from '@tanstack/react-router'
-//import {getSubmissionsByChallenge} from "../../../../api/challenges/submissionApi.ts";
-import Leaderboard from "../../../../components/Leaderboard/Leaderboard.tsx";
+import Leaderboard from "./-components/Leaderboard/Leaderboard.tsx";
 import {PaginatedWrapper} from "../../../../components/pagination/PaginatedWrapper.tsx";
 import {getSubmissionsByChallenge} from "../../../../api/challenges/submissionApi.ts";
 

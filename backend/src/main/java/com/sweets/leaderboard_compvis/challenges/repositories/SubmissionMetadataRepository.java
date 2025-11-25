@@ -10,5 +10,5 @@ public interface SubmissionMetadataRepository extends FileMetadataRepository<Sub
 
     Page<SubmissionMetadata> findSubmissionsByChallengeId(Long challengeId, Pageable pageable);
 
-    boolean existsByChallengeIdAndSubmitterEmail(Long challengeId, String submitterEmail);
+    boolean existsByChallengeIdAndTeamName(Long challengeId, String teamName);
 }
