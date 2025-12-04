@@ -13,11 +13,12 @@
     --primary-colour: darkslategrey;
     --primary-btn-bg-colour: darkslategrey;
     --primary-btn-bg-colour-hover: #3f5f5f;
-    --charcoal-colour: #414144;
+    --charcoal-colour: #3e3e40;
     --charcoal-colour-disabled: #41414492;
     --gray-colour-1: #f2f2f2;
     --gray-colour-2: #e7e7e7;
     --gray-colour-3: #b8bdc8;
+    --white-1: #f4f3f2;
     --red-1: #cd1a1a;
     --red-2: #9c1e1e;
     --radius-small: 4px;
@@ -34,8 +35,8 @@ body {
     margin: 0;
     min-width: 320px;
     min-height: 100vh;
-    background-color: white;
     color: black;
+    /*background-color: var(--white-1);*/
 }
 
 .page-content {

@@ -10,17 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
 
 public interface SubmissionService {
     @Transactional
     @PreAuthorize("@auth.hasAnyRole('ADMIN', 'MODERATOR')")
-    SubmissionStatusDto approveSubmission(UUID submissionId, SubmissionApproveDto approveDto);
-
-    @Transactional
-    @PreAuthorize("@auth.hasAnyRole('ADMIN', 'MODERATOR')")
-    SubmissionStatusDto rejectSubmission(UUID submissionId);
+    SubmissionStatusDto updateStatus(UUID submissionId, SubmissionStatusUpdateDto approveDto);
 
     @Transactional
     SubmissionDto uploadChallengeSubmission(Long challengeId, ChallengeSubmitUploadDto uploadDto, MultipartFile file) throws IOException;
@@ -33,8 +28,11 @@ public interface SubmissionService {
                                                                              Pageable pageable);
 
     @PreAuthorize("@auth.hasAnyRole('ADMIN', 'MODERATOR')")
-    List<SubmissionListItemDto> getChallengeSubmissionsForModeration(SubmissionFilterDto filter,
-                                                                     Pageable pageable);
+    PagedResponse<SubmissionListItemDto> getChallengeSubmissionsForModeration(SubmissionFilterDto filter,
+                                                                              Pageable pageable);
 
-    SubmissionLeaderboardDetailsDto getSubmissionDetails(UUID submissionId);
+    SubmissionLeaderboardDetailsDto getSubmissionDetailsForLeaderboard(UUID submissionId);
+
+    @PreAuthorize("@auth.hasAnyRole('ADMIN', 'MODERATOR')")
+    SubmissionDetailsDto getSubmissionDetails(UUID submissionId);
 }

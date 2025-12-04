@@ -4,14 +4,14 @@ import java.util.UUID;
 
 public class SubmissionStatusDto {
     private UUID submissionId;
-    private String submissionStatus;
+    private String status;
 
     public SubmissionStatusDto() {
     }
 
     public SubmissionStatusDto(UUID submissionId, String submissionStatus) {
         this.submissionId = submissionId;
-        this.submissionStatus = submissionStatus;
+        this.status = submissionStatus;
     }
 
     public UUID getSubmissionId() {
@@ -22,11 +22,11 @@ public class SubmissionStatusDto {
         this.submissionId = submissionId;
     }
 
-    public String getSubmissionStatus() {
-        return submissionStatus;
+    public String getStatus() {
+        return status;
     }
 
-    public void setSubmissionStatus(String submissionStatus) {
-        this.submissionStatus = submissionStatus;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

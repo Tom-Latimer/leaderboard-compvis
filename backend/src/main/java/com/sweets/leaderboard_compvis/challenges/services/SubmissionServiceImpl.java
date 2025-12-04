@@ -59,35 +59,58 @@ public class SubmissionServiceImpl implements SubmissionService {
     }
 
     @Override
-    public SubmissionStatusDto approveSubmission(UUID submissionId, SubmissionApproveDto approveDto) {
+    public SubmissionStatusDto updateStatus(UUID submissionId, SubmissionStatusUpdateDto dto) {
 
         if (submissionId == null) {
             throw new IllegalArgumentException("Submission id cannot be null");
         }
 
-        if (approveDto == null) {
-            throw new BadRequestException("Max precision, max recall and split are required");
+        if (dto == null) {
+            throw new BadRequestException("Missing one or more of the following: Status, Max precision, Max recall or" +
+                    " Split");
+        }
+
+        //validation the fields for each status type
+        if (dto.getStatus() == ESubmissionStatus.APPROVED) {
+            if (dto.getMaxPrecision() == null) {
+                throw new BadRequestException("Max precision is required for submission approval");
+            } else if (dto.getMaxPrecision() < 0 || dto.getMaxPrecision() > 1) {
+                throw new BadRequestException("Max precision must be between 0 and 1");
+            }
+
+            if (dto.getMaxRecall() == null) {
+                throw new BadRequestException("Max recall is required for submission approval");
+            } else if (dto.getMaxRecall() < 0 || dto.getMaxRecall() > 1) {
+                throw new BadRequestException("Max recall must be between 0 and 1");
+            }
+
+            if (dto.getSplit() == null) {
+                throw new BadRequestException("Split is required for submission approval");
+            } else if (dto.getSplit() < 0 || dto.getSplit() > 1) {
+                throw new BadRequestException("Split must be between 0 and 1");
+            }
+
+        } else if (dto.getStatus() != ESubmissionStatus.REJECTED || dto.getStatus() != ESubmissionStatus.PENDING) {
+            throw new BadRequestException("Submission status is of unknown type");
         }
 
         SubmissionMetadata submission = submissionMetadataRepository.findByAttachmentId(submissionId)
                 .orElseThrow(() -> new SubmissionNotFoundException(submissionId));
 
-        ESubmissionStatus status = ESubmissionStatus.APPROVED;
+        ESubmissionStatus status = dto.getStatus();
 
         submission.setSubmissionStatus(status);
 
-        submission.setMaxPrecision(approveDto.getMaxPrecision());
-        submission.setMaxRecall(approveDto.getMaxRecall());
-        submission.setSplit(approveDto.getSplit());
+        //add fields required for approval
+        if (status == ESubmissionStatus.APPROVED) {
+            submission.setMaxPrecision(dto.getMaxPrecision());
+            submission.setMaxRecall(dto.getMaxRecall());
+            submission.setSplit(dto.getSplit());
+        }
 
         submissionMetadataRepository.save(submission);
 
         return new SubmissionStatusDto(submissionId, status.name());
-    }
-
-    @Override
-    public SubmissionStatusDto rejectSubmission(UUID submissionId) {
-        return setSubmissionStatus(submissionId, ESubmissionStatus.REJECTED);
     }
 
     @Override
@@ -159,7 +182,7 @@ public class SubmissionServiceImpl implements SubmissionService {
             Long challengeId,
             ESubmissionStatus status,
             Pageable pageable) {
-        
+
         if (challengeId == null) {
             throw new BadRequestException("Challenge ID cannot be null");
         }
@@ -197,17 +220,39 @@ public class SubmissionServiceImpl implements SubmissionService {
         );
     }
 
-    public List<SubmissionListItemDto> getChallengeSubmissionsForModeration(SubmissionFilterDto filter,
-                                                                            Pageable pageable) {
+    @Override
+    public PagedResponse<SubmissionListItemDto> getChallengeSubmissionsForModeration(SubmissionFilterDto filter,
+                                                                                     Pageable pageable) {
         Specification<SubmissionMetadata> spec = SubmissionSpecifications.fromFilter(filter);
 
         Page<SubmissionMetadata> page = submissionMetadataRepository.findAll(spec, pageable);
 
-        return submissionMapper.toSubmissionListItemDtoList(page.getContent());
+        final long baseRank = (long) page.getNumber() * page.getSize();
+
+        List<SubmissionListItemDto> items = IntStream.range(0, page.getContent().size())
+                .mapToObj(i -> {
+                    //get entity and map into dto
+                    SubmissionMetadata entity = page.getContent().get(i);
+                    SubmissionListItemDto item = submissionMapper.toSubmissionListItemDto(entity);
+
+                    //assign rank according to page number
+                    item.setRank(baseRank + i);
+
+                    return item;
+                }).collect(Collectors.toList());
+
+        //response type is used for client side pagination
+        return new PagedResponse<>(
+                items,
+                page.getNumber(),
+                page.getTotalPages(),
+                page.getTotalElements(),
+                page.getSize()
+        );
     }
 
     @Override
-    public SubmissionLeaderboardDetailsDto getSubmissionDetails(UUID submissionId) {
+    public SubmissionLeaderboardDetailsDto getSubmissionDetailsForLeaderboard(UUID submissionId) {
         if (submissionId == null) {
             throw new BadRequestException("Submission ID cannot be null");
         }
@@ -218,26 +263,23 @@ public class SubmissionServiceImpl implements SubmissionService {
         return submissionMapper.toSubmissionLeaderboardDetailsDto(metadata);
     }
 
+    @Override
+    public SubmissionDetailsDto getSubmissionDetails(UUID submissionId) {
+        if (submissionId == null) {
+            throw new BadRequestException("Submission ID cannot be null");
+        }
+
+        SubmissionMetadata metadata = submissionMetadataRepository.findByAttachmentId(submissionId)
+                .orElseThrow(() -> new SubmissionNotFoundException(submissionId));
+
+        return submissionMapper.toSubmissionDetailsDto(metadata);
+    }
+
     private String saveCsv(String bucket, String filepath, MultipartFile file) throws IOException {
         try (InputStream inputStream = file.getInputStream()) {
             long contentLength = file.getSize();
 
             return s3Repository.save(bucket, filepath, inputStream, contentLength, EMimeTypes.textCsv);
         }
-    }
-
-    private SubmissionStatusDto setSubmissionStatus(UUID submissionId, ESubmissionStatus submissionStatus) {
-        if (submissionId == null) {
-            throw new IllegalArgumentException("Submission id cannot be null");
-        }
-
-        SubmissionMetadata submission = submissionMetadataRepository.findByAttachmentId(submissionId)
-                .orElseThrow(() -> new SubmissionNotFoundException(submissionId));
-
-        submission.setSubmissionStatus(submissionStatus);
-
-        submissionMetadataRepository.save(submission);
-
-        return new SubmissionStatusDto(submissionId, submissionStatus.name());
     }
 }

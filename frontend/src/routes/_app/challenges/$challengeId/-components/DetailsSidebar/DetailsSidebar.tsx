@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 import axios from "axios";
-import {getSubmissionDetails} from "../../../../../../api/challenges/submissionApi.ts";
+import {getSubmissionDetailsForLeaderboard} from "../../../../../../api/challenges/submissionApi.ts";
 import type {Submission} from "../../../../../../types/submissions/submission.ts";
 import "./details-sidebar.css";
 import XIcon from "../../../../../../assets/x.svg?react";
@@ -32,7 +32,7 @@ const DetailsSidebar = ({submissionId, ref}: {
                 //guard against null
                 if (!submissionId) return;
 
-                const data = await getSubmissionDetails(submissionId, signal);
+                const data = await getSubmissionDetailsForLeaderboard(submissionId, signal);
                 setSubmission(data);
                 ref.current?.showModal();
             } catch (error) {

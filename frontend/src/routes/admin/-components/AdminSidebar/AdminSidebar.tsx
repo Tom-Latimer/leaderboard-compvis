@@ -1,6 +1,9 @@
 import React from "react";
-import {Link, type LinkProps} from "@tanstack/react-router";
+import {Link, type LinkProps, useNavigate, useRouter} from "@tanstack/react-router";
+import {useAuth} from "../../../../components/auth/AuthProvider.tsx";
 import FileIcon from "../../../../assets/file.svg?react";
+import SignInIcon from "../../../../assets/sign-in.svg?react";
+import SignOutIcon from "../../../../assets/sign-out.svg?react";
 import "./admin-sidebar.css";
 
 type NavLinkProps = LinkProps & {
@@ -33,13 +36,48 @@ const NavSection = ({heading, children}: { heading: string, children: React.Reac
 }
 
 const AdminSidebar = () => {
+
+    const router = useRouter();
+    const navigate = useNavigate();
+
+    const {isAuthenticated, logout} = useAuth();
+
+    const handleLogout = () => {
+
+        //clear auth state
+        logout();
+
+        //clear cached routes
+        router.invalidate().finally(() => {
+            navigate({to: "/login"});
+        });
+    }
+
     return (
         <nav className="sidebar-nav">
-            <NavSection heading="Main">
-                <NavLink to="/admin/submissions" icon={<FileIcon/>}>
-                    Submissions
-                </NavLink>
-            </NavSection>
+            <div className="sidebar-nav-content">
+                <NavSection heading="Main">
+                    <NavLink to="/admin/submissions" icon={<FileIcon/>}>
+                        Submissions
+                    </NavLink>
+                </NavSection>
+            </div>
+            <div className="nav-login-section">
+                {isAuthenticated ? (
+                    <button className="nav-link nav-btn" onClick={handleLogout}>
+                        <span className="nav-link-icon">
+                            <SignOutIcon/>
+                        </span>
+                        <span className="nav-link-text">
+                            Log Out
+                         </span>
+                    </button>
+                ) : (
+                    <NavLink to="/login" icon={<SignInIcon/>}>
+                        Log In
+                    </NavLink>
+                )}
+            </div>
         </nav>
     );
 }

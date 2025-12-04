@@ -36,11 +36,11 @@ export const getSubmissionsByChallenge = async (
     return {...result.data, content: result.data.content};
 }
 
-export const getSubmissionDetails = async (
+export const getSubmissionDetailsForLeaderboard = async (
     submissionId: string,
     signal: AbortSignal): Promise<Submission> => {
 
-    const result = await api.get(`/submissions/${submissionId}`, {
+    const result = await api.get(`/submissions/${submissionId}/leaderboard-summary`, {
         params: {
             id: submissionId,
         },

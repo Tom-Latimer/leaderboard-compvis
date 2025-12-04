@@ -77,7 +77,7 @@ const Leaderboard = ({submissions, sortKey, sortOrder, setSortKey, setSortOrder}
             setSortOrder("desc");
         }
     }
-
+    console.log(submissions);
     const openAndSetModalContent = (submissionId: string) => {
         setSelectedSubmissionId(submissionId);
 
@@ -118,7 +118,7 @@ const Leaderboard = ({submissions, sortKey, sortOrder, setSortKey, setSortOrder}
                         </tr>
                         </thead>
                         <tbody>
-                        {submissions.length !== 0 ? (
+                        {submissions && submissions.length !== 0 ? (
 
                             submissions.map((sub) => (
                                 <LeaderboardRow

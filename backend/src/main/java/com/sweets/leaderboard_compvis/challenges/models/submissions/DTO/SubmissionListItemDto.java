@@ -1,5 +1,8 @@
 package com.sweets.leaderboard_compvis.challenges.models.submissions.DTO;
 
+import com.sweets.leaderboard_compvis.challenges.models.ESubmissionStatus;
+
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 public class SubmissionListItemDto {
@@ -7,21 +10,21 @@ public class SubmissionListItemDto {
     private Long challengeId;
     private String challengeName;
     private UUID submissionId;
-    private String submitterFirstName;
-    private String submitterLastName;
-    private String submitterEmail;
+    private ESubmissionStatus status;
+    private OffsetDateTime submittedAt;
+    private Long rank;
 
     public SubmissionListItemDto() {
     }
 
-    public SubmissionListItemDto(Long challengeId, String challengeName, UUID submissionId, String submitterFirstName
-            , String submitterLastName, String submitterEmail) {
+    public SubmissionListItemDto(Long challengeId, String challengeName, UUID submissionId, ESubmissionStatus status,
+                                 OffsetDateTime submittedAt, Long rank) {
         this.challengeId = challengeId;
         this.challengeName = challengeName;
         this.submissionId = submissionId;
-        this.submitterFirstName = submitterFirstName;
-        this.submitterLastName = submitterLastName;
-        this.submitterEmail = submitterEmail;
+        this.status = status;
+        this.submittedAt = submittedAt;
+        this.rank = rank;
     }
 
     public Long getChallengeId() {
@@ -48,27 +51,27 @@ public class SubmissionListItemDto {
         this.submissionId = submissionId;
     }
 
-    public String getSubmitterFirstName() {
-        return submitterFirstName;
+    public ESubmissionStatus getStatus() {
+        return status;
     }
 
-    public void setSubmitterFirstName(String submitterFirstName) {
-        this.submitterFirstName = submitterFirstName;
+    public void setStatus(ESubmissionStatus status) {
+        this.status = status;
     }
 
-    public String getSubmitterLastName() {
-        return submitterLastName;
+    public OffsetDateTime getSubmittedAt() {
+        return submittedAt;
     }
 
-    public void setSubmitterLastName(String submitterLastName) {
-        this.submitterLastName = submitterLastName;
+    public void setSubmittedAt(OffsetDateTime submittedAt) {
+        this.submittedAt = submittedAt;
     }
 
-    public String getSubmitterEmail() {
-        return submitterEmail;
+    public Long getRank() {
+        return rank;
     }
 
-    public void setSubmitterEmail(String submitterEmail) {
-        this.submitterEmail = submitterEmail;
+    public void setRank(Long rank) {
+        this.rank = rank;
     }
 }

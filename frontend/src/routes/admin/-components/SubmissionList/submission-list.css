@@ -1,0 +1,80 @@
+.sub-list-container {
+    margin-bottom: 1.5rem;
+}
+
+.sub-list-wrapper {
+    border-radius: var(--radius-small);
+    border: 1px solid var(--gray-colour-3);
+    width: auto;
+}
+
+.sub-list {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+}
+
+.sub-list td, .sub-list th {
+    border: none;
+    text-align: left;
+    vertical-align: middle;
+    padding: 1rem 0.75rem;
+    color: var(--charcoal-colour);
+}
+
+.sub-list th {
+    background-color: var(--gray-colour-1);
+    font-weight: 600;
+}
+
+.sortable-header svg {
+    height: 1rem;
+    width: 1rem;
+    vertical-align: middle;
+    margin-left: 0.25rem;
+    color: #b8bdc8;
+}
+
+.sub-list tr {
+    border-bottom: 2px solid #ccc;
+}
+
+.sub-list tbody tr:hover {
+    background-color: #f7f7f7;
+}
+
+.sub-list tbody tr:last-child {
+    border-bottom: none;
+}
+
+.sub-list .text-center {
+    text-align: center;
+}
+
+.sub-list .active-icon {
+    color: var(--charcoal-colour);
+}
+
+.list-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem;
+}
+
+.list-button:hover {
+    background-color: #ededed;
+}
+
+.list-button:hover svg {
+    color: #3f5f5f;
+}
+
+.list-button svg {
+    color: #5a7b7b;
+    height: 1.5rem;
+    width: 1.5rem;
+}

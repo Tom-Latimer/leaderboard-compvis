@@ -1,8 +1,9 @@
 import type {OrderedItem} from "../pagination/orderedItem.ts";
 
 export interface SubmissionListItem extends OrderedItem {
-    submissionId: string;
+    challengeId: number;
     challengeName: string;
+    submissionId: string;
     status: string;
-    dateSubmitted: string;
+    submittedAt: string;
 }

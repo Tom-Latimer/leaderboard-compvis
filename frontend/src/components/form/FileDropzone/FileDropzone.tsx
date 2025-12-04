@@ -4,6 +4,7 @@ import CheckFileIcon from "../../../assets/check-file.svg?react";
 import CrossIcon from "../../../assets/circled-x.svg?react";
 import "./file-dropzone.css";
 import React from "react";
+import {formatBytes} from "../../../utils/formatBytes.ts";
 
 interface FileDropzoneProps<T extends FieldValues> {
     name: Path<T>;
@@ -14,19 +15,13 @@ interface FileDropzoneProps<T extends FieldValues> {
 
 const UploadedFile = ({file, onRemove}: { file: File; onRemove: () => void }) => {
 
-    const getFormattedSize = (fileSize: number): string => {
-        if (fileSize < 1024 * 1024) return `${fileSize} B`;
-        if (fileSize < 1024 * 1024 * 1024) return `${(fileSize / (1024 * 1024)).toFixed(2)} MB`;
-        return `${(fileSize / (1024 * 1024 * 1024)).toFixed(2)} GB`;
-    }
-
     return (
         <div className="file-info">
             <div className="left-container">
                 <CheckFileIcon className="file-icon"/>
                 <div>
                     <p> {file.name} </p>
-                    <p className="file-size"> {getFormattedSize(file.size)}</p>
+                    <p className="file-size"> {formatBytes(file.size)}</p>
                 </div>
             </div>
 

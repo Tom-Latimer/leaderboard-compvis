@@ -20,19 +20,30 @@ public interface SubmissionMapper {
     @Mapping(target = "submissionId", source = "attachmentId")
     @Mapping(target = "challengeId", source = "challenge.id")
     @Mapping(target = "challengeName", source = "challenge.title")
+    @Mapping(target = "status", source = "submissionStatus")
+    @Mapping(target = "submittedAt", source = "auditMetadata.createdAt")
+    @Mapping(target = "rank", ignore = true)
     SubmissionListItemDto toSubmissionListItemDto(SubmissionMetadata submissionMetadata);
 
-    List<SubmissionListItemDto> toSubmissionListItemDtoList(List<SubmissionMetadata> submissionMetadata);
-
     @Mapping(target = "submissionId", source = "attachmentId")
+    @Mapping(target = "rank", ignore = true)
     SubmissionLeaderboardDto toSubmissionLeaderboardDto(SubmissionMetadata submissionMetadata);
 
     @Mapping(target = "submissionId", source = "attachmentId")
     @Mapping(target = "teamMembers", source = "submissionTeamMembers")
+    @Mapping(target = "rank", ignore = true)
     SubmissionLeaderboardDetailsDto toSubmissionLeaderboardDetailsDto(SubmissionMetadata submissionMetadata);
+
+    @Mapping(target = "submissionId", source = "attachmentId")
+    @Mapping(target = "status", source = "submissionStatus")
+    @Mapping(target = "teamMembers", source = "submissionTeamMembers")
+    @Mapping(target = "fileSize", source = "contentLength")
+    @Mapping(target = "challengeName", source = "challenge.title")
+    SubmissionDetailsDto toSubmissionDetailsDto(SubmissionMetadata submissionMetadata);
 
     List<SubmissionLeaderboardDto> toSubmissionLeaderboardDtoList(List<SubmissionMetadata> submissionMetadata);
 
+    @Mapping(target = "status", source = "submissionStatus")
     SubmissionDto toSubmissionDto(SubmissionMetadata submissionMetadata);
 
     @Mapping(target = "id", ignore = true)
@@ -47,6 +58,9 @@ public interface SubmissionMapper {
     @Mapping(source = "fileSize", target = "contentLength")
     @Mapping(source = "status", target = "submissionStatus")
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "maxPrecision", ignore = true)
+    @Mapping(target = "maxRecall", ignore = true)
+    @Mapping(target = "split", ignore = true)
     SubmissionMetadata toSubmissionMetadata(
             ChallengeSubmitUploadDto uploadDto,
             Challenge challenge,

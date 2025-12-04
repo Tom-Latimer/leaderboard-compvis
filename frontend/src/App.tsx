@@ -1,16 +1,21 @@
 import {RouterProvider} from "@tanstack/react-router";
 import router from "./router.tsx";
-import AuthProvider from "./components/auth/AuthProvider.tsx";
+import AuthProvider, {useAuth} from "./components/auth/AuthProvider.tsx";
+
+function InnerApp() {
+    const auth = useAuth();
+    return <RouterProvider router={router} context={{auth}}/>;
+}
 
 function App() {
 
     return (
         <>
             <AuthProvider>
-                <RouterProvider router={router}/>
+                <InnerApp/>
             </AuthProvider>
         </>
     );
 }
 
-export default App
+export default App;

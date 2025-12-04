@@ -1,51 +1,102 @@
-import './login.css';
-import {Link, useNavigate} from "@tanstack/react-router";
-import React, {useState} from "react";
+import './login-form.css';
+import {useNavigate, useRouter} from "@tanstack/react-router";
 import {useAuth} from "../../../components/auth/AuthProvider.tsx";
+import {type SubmitHandler, useForm} from "react-hook-form";
+import {z} from "zod";
+import {zodResolver} from "@hookform/resolvers/zod";
+import axios from "axios";
+import type {ApiError} from "../../../types/errors/ApiError.ts";
+
+const schema = z.object({
+    email: z.email()
+        .min(1, "Please enter your username")
+        .max(50, "Username cannot exceed max 50"),
+    password: z.string()
+        .min(12, "Please enter valid password")
+        .max(20, "Please enter valid password"),
+});
+
+type FormInputs = z.infer<typeof schema>;
 
 const LoginForm = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
 
     const {login} = useAuth();
 
+    const router = useRouter();
     const navigate = useNavigate();
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const {
+        register,
+        handleSubmit,
+        formState: {errors},
+        setError
+    } = useForm<FormInputs>({
+        resolver: zodResolver(schema)
+    });
 
-        await login(email, password);
+    const onSubmit: SubmitHandler<FormInputs> = async (data) => {
 
-        await navigate({to: '/'});
+        try {
+
+            if (!data.email || !data.password) {
+                return;
+            }
+
+            await login(data.email, data.password);
+
+            await router.invalidate();
+
+            await navigate({to: '/admin'});
+        } catch (error: unknown) {
+            if (axios.isAxiosError(error) && error.response?.data) {
+                //convert the error to the standard sent by the backend
+                const apiError = error.response.data as ApiError;
+
+                //display errors returned from the backend
+                switch (apiError.errorCode) {
+                    case "ERR_CRED_INVALID":
+                        setError("root.apiError", {
+                            message: "Invalid username or password.",
+                        });
+                        return;
+                }
+            }
+
+            //generic error
+            setError("root.apiError", {message: "An error has occurred while logging in."});
+        }
     }
 
     return (
         <div className="centered-container">
             <div className="login-form-container">
                 <div className="login-form-header">
-                    <h2>Welcome Back</h2>
-                    <p>Enter your email and password to access your account.</p>
+                    <h2>Login</h2>
+                    <p>Please enter your credentials to continue</p>
                 </div>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="login-form-control">
                         <label htmlFor="email">Email</label>
-                        <input type="email" id="email" name="email" placeholder="Please enter your email address"
-                               value={email} onChange={(e) => {
-                            setEmail(e.target.value)
-                        }}/>
+                        <input type="email" {...register("email")} placeholder="jane.doe@example.com"/>
+                        {errors.email && (
+                            <div className="error-message">{errors.email.message}</div>)}
                     </div>
                     <div className="login-form-control">
                         <label htmlFor="password">Password</label>
-                        <input type="password" id="password" name="password" value={password} onChange={(e) => {
-                            setPassword(e.target.value)
-                        }}/>
+                        <input type="password" {...register("password")}/>
+                        {errors.password && (
+                            <div className="error-message">{errors.password.message}</div>)}
                     </div>
+                    {errors.root?.apiError && (
+                        <div className="error-message">
+                            {errors.root.apiError.message}
+                        </div>
+                    )}
                     <div>
-                        <input type="submit" value="Login" className="login-form-button"/>
+                        <input type="submit" value="LOGIN" className="login-form-button"/>
                     </div>
                 </form>
                 <div className="login-form-footer">
-                    <p>Don't have an account? <span><Link to="/signup">Register Now</Link></span></p>
                 </div>
             </div>
         </div>

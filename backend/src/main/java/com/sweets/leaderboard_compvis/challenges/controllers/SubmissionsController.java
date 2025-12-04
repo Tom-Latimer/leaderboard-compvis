@@ -37,9 +37,8 @@ public class SubmissionsController {
         this.submissionService = submissionService;
     }
 
-    @GetMapping("/challenges/{id}/submissions/{submissionId}/download")
+    @GetMapping("/submissions/{submissionId}/download")
     public ResponseEntity<InputStreamResource> downloadSubmission(
-            @PathVariable long id,
             @PathVariable UUID submissionId) {
 
         FileDownloadDto fileDownloadDto = submissionService.downloadSubmission(submissionId);
@@ -91,42 +90,64 @@ public class SubmissionsController {
     }
 
     @GetMapping("/submissions")
-    public ResponseEntity<List<SubmissionListItemDto>> getSubmissions(SubmissionFilterDto filter, Pageable pageable) {
+    public ResponseEntity<PagedResponse<SubmissionListItemDto>> getSubmissions(
+            SubmissionFilterDto filter,
+            @RequestParam int p,
+            @RequestParam int s,
+            @RequestParam(required = false) String sort,
+            @RequestParam(defaultValue = "asc") String sortOrder) {
 
-        List<SubmissionListItemDto> submissions = submissionService.getChallengeSubmissionsForModeration(filter,
-                pageable);
+        if (sort != null && !List.of("attachmentId").contains(sort)) {
+            throw new BadRequestException("Sort field contains invalid input");
+        }
+
+        Sort sortBy = Sort.unsorted();
+        if (sort != null) {
+            sortBy = sortOrder.equalsIgnoreCase("desc") ? Sort.by(sort).descending() :
+                    Sort.by(sort).ascending();
+        }
+
+        Pageable pageable = PageRequest.of(p, s, sortBy);
+
+        PagedResponse<SubmissionListItemDto> submissions =
+                submissionService.getChallengeSubmissionsForModeration(filter,
+                        pageable);
 
         return ResponseEntity.ok(submissions);
     }
 
     @GetMapping("/submissions/{submissionId}")
-    public ResponseEntity<SubmissionLeaderboardDetailsDto> getSubmissionDetails(
+    public ResponseEntity<SubmissionDetailsDto> getSubmissionDetails(
             @PathVariable UUID submissionId) {
 
         if (submissionId == null) {
             throw new BadRequestException("Submission ID is required");
         }
 
-        SubmissionLeaderboardDetailsDto details = submissionService.getSubmissionDetails(submissionId);
+        SubmissionDetailsDto details = submissionService.getSubmissionDetails(submissionId);
 
         return ResponseEntity.ok(details);
     }
 
-    @PostMapping("/submissions/{submissionId}/approve")
-    public ResponseEntity<SubmissionStatusDto> approveSubmission(
-            @PathVariable UUID submissionId,
-            @Valid @RequestBody SubmissionApproveDto approveDto) {
-
-        SubmissionStatusDto response = submissionService.approveSubmission(submissionId, approveDto);
-
-        return ResponseEntity.ok(response);
-    }
-
-    @PostMapping("/submissions/{submissionId}/reject")
-    public ResponseEntity<SubmissionStatusDto> rejectSubmission(
+    @GetMapping("/submissions/{submissionId}/leaderboard-summary")
+    public ResponseEntity<SubmissionLeaderboardDetailsDto> getSubmissionDetailsForLeaderboard(
             @PathVariable UUID submissionId) {
 
-        SubmissionStatusDto response = submissionService.rejectSubmission(submissionId);
+        if (submissionId == null) {
+            throw new BadRequestException("Submission ID is required");
+        }
+
+        SubmissionLeaderboardDetailsDto details = submissionService.getSubmissionDetailsForLeaderboard(submissionId);
+
+        return ResponseEntity.ok(details);
+    }
+
+    @PatchMapping("/submissions/{submissionId}")
+    public ResponseEntity<SubmissionStatusDto> updateSubmissionStatus(
+            @PathVariable UUID submissionId,
+            @Valid @RequestBody SubmissionStatusUpdateDto dto) {
+
+        SubmissionStatusDto response = submissionService.updateStatus(submissionId, dto);
 
         return ResponseEntity.ok(response);
     }

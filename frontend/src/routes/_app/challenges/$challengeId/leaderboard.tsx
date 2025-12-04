@@ -12,7 +12,6 @@ function RouteComponent() {
     const {challengeId} = Route.useParams();
 
     return (
-        // <Leaderboard submissions={Route.useLoaderData()}/>
         <PaginatedWrapper
             fetchPage={(page, pageSize, sortKey, sortOrder, signal) => getSubmissionsByChallenge(challengeId, page, pageSize, sortKey, sortOrder, signal)}
             renderComponent={({items, sortKey, sortOrder, setSortKey, setSortOrder}) =>

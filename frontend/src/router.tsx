@@ -14,3 +14,7 @@ declare module '@tanstack/react-router' {
 }
 
 export default router;
+
+export function getRouter() {
+    return router;
+}

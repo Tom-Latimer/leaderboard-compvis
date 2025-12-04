@@ -1,0 +1,72 @@
+.select-control select {
+    border: 1px solid var(--gray-colour-3);
+    border-radius: var(--radius-small);
+    background-color: var(--white-1);
+    padding: 0.3rem 2rem 0.3rem 0.6rem;
+    width: 8rem;
+}
+
+.select-control select:hover {
+    border-color: #a0a3ac;
+}
+
+.form-control {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.horizontal-control {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.form-control label {
+    display: flex;
+    flex-basis: 120px;
+
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--charcoal-colour)
+}
+
+.form-control input {
+    display: flex;
+    flex-basis: 0;
+    flex-grow: 1;
+
+    border-radius: 4px;
+    border: 1px solid var(--gray-colour-3);
+    padding: 0.5rem 0.75rem;
+    line-height: 1;
+    max-width: 4rem;
+    text-align: center;
+}
+
+.error-message {
+    border-radius: 2px;
+    color: #e32525;
+    background-color: #ffeeee;
+    padding: 0.5rem 1rem;
+    line-height: 1;
+    font-size: 0.75rem;
+}
+
+.generic-error-message {
+    margin-top: 0.75rem;
+}
+
+.overview-section-item .label {
+    display: flex;
+    flex-basis: 150px;
+    color: var(--charcoal-colour);
+}
+
+.overview-section-item .value {
+    display: flex;
+    flex-basis: 0;
+    flex-grow: 1;
+    font-weight: 600;
+}

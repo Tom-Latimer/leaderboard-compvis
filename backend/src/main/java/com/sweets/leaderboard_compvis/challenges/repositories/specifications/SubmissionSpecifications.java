@@ -17,23 +17,26 @@ public class SubmissionSpecifications {
             if (filter.getChallengeId() != null) {
                 predicates.add(cb.equal(root.get("challenge").get("id"), filter.getChallengeId()));
             }
+            if (filter.getChallengeName() != null && !filter.getChallengeName().isBlank()) {
+                predicates.add(cb.like(
+                        cb.lower(root.get("challenge").get("name")),
+                        "%" + filter.getChallengeName().toLowerCase() + "%"));
+            }
+            if (filter.getSubmissionId() != null) {
+                predicates.add(cb.equal(root.get("attachmentId"), filter.getSubmissionId()));
+            }
             if (filter.getStatus() != null) {
                 predicates.add(cb.equal(root.get("submissionStatus"), filter.getStatus()));
             }
-            if (filter.getSubmitterEmail() != null && !filter.getSubmitterEmail().isBlank()) {
+            if (filter.getOrganization() != null && !filter.getOrganization().isBlank()) {
                 predicates.add(cb.like(
-                        cb.lower(root.get("submitterEmail")),
-                        "%" + filter.getSubmitterEmail().toLowerCase() + "%"));
+                        cb.lower(root.get("organization")),
+                        "%" + filter.getOrganization().toLowerCase() + "%"));
             }
-            if (filter.getSubmitterFirstName() != null && !filter.getSubmitterFirstName().isBlank()) {
+            if (filter.getTeamName() != null && !filter.getTeamName().isBlank()) {
                 predicates.add(cb.like(
-                        cb.lower(root.get("submitterFirstName")),
-                        "%" + filter.getSubmitterFirstName().toLowerCase() + "%"));
-            }
-            if (filter.getSubmitterLastName() != null && !filter.getSubmitterLastName().isBlank()) {
-                predicates.add(cb.like(
-                        cb.lower(root.get("submitterLastName")),
-                        "%" + filter.getSubmitterLastName().toLowerCase() + "%"));
+                        cb.lower(root.get("teamName")),
+                        "%" + filter.getTeamName().toLowerCase() + "%"));
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));

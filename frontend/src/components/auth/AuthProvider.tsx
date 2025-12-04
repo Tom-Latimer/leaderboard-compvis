@@ -10,19 +10,19 @@ const AuthProvider = ({children}: { children: React.ReactNode }) => {
     const [token, setTokenState] = useState<string | null>(null);
     const [user, setUser] = useState<UserPrincipal | null>(null);
 
-    const login = async (email: string, password: string) => {
+    const login = React.useCallback(async (email: string, password: string) => {
         const {token, user} = await authApi.login({email, password});
 
         setToken(token);
         setTokenState(token);
         setUser(user);
-    }
+    }, []);
 
-    const logout = () => {
+    const logout = React.useCallback(() => {
         setToken(null);
         setTokenState(null);
         setUser(null);
-    }
+    }, []);
 
     return (
         <AuthContext.Provider value={{token, user, isAuthenticated: !!token, login, logout}}>
