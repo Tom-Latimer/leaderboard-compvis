@@ -1,37 +1,44 @@
 .nav-container {
     position: sticky;
+    top: 0;
+    width: 100%;
 }
 
 .navbar {
     width: 100%;
     align-items: center;
-    padding: 1.5rem;
+    padding: 0 2rem;
+    background-color: #2f3e3e;
+    display: flex;
+    justify-content: space-between;
+    height: 4rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .nav-link, .nav-link:visited {
-    border-radius: 8px;
+    border-radius: var(--radius-small);
     position: relative;
     padding: 0.5rem 0.5rem;
-    color: black;
+    color: var(--white-1);
     text-decoration: none;
     line-height: 1.5;
     transition: background-color 0.25s;
 }
 
 .nav-link:hover {
-    background-color: whitesmoke;
+    background-color: #3f4d4d;
 }
 
 .nav-link-active::after {
     border-radius: 8px;
     content: "";
     position: absolute;
-    bottom: -5px;
+    bottom: -2px;
     left: 50%;
     transform: translateX(-50%);
     height: 2px;
     width: 100%;
-    background-color: var(--primary-btn-bg-colour);
+    background-color: #7e8989;
 }
 
 .nav-button {

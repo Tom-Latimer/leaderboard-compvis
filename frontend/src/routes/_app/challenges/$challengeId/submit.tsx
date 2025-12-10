@@ -1,5 +1,5 @@
 import {createFileRoute} from '@tanstack/react-router'
-import ChallengeSubmitForm from "../../../../components/ChallengeSubmitForm/ChallengeSubmitForm.tsx";
+import ChallengeSubmitForm from "./-components/ChallengeSubmitForm/ChallengeSubmitForm.tsx";
 
 export const Route = createFileRoute('/_app/challenges/$challengeId/submit')({
     component: RouteComponent,

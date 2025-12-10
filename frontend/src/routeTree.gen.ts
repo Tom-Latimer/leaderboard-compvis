@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as AuthRouteRouteImport } from './routes/_auth/route'
 import { Route as AppRouteRouteImport } from './routes/_app/route'
-import { Route as AppIndexRouteImport } from './routes/_app/index'
 import { Route as AdminSubmissionsRouteImport } from './routes/admin/submissions'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
 import { Route as AppChallengesIndexRouteImport } from './routes/_app/challenges/index'
@@ -36,11 +35,6 @@ const AuthRouteRoute = AuthRouteRouteImport.update({
 const AppRouteRoute = AppRouteRouteImport.update({
   id: '/_app',
   getParentRoute: () => rootRouteImport,
-} as any)
-const AppIndexRoute = AppIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AppRouteRoute,
 } as any)
 const AdminSubmissionsRoute = AdminSubmissionsRouteImport.update({
   id: '/submissions',
@@ -104,7 +98,6 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteRouteWithChildren
   '/login': typeof AuthLoginRoute
   '/admin/submissions': typeof AdminSubmissionsRouteWithChildren
-  '/': typeof AppIndexRoute
   '/challenges/$challengeId': typeof AppChallengesChallengeIdRouteRouteWithChildren
   '/admin/submissions/{$submissionId}_modal': typeof AdminSubmissionsChar123submissionIdChar125_modalRoute
   '/admin/submissions/$submissionId': typeof AdminSubmissionsSubmissionIdRoute
@@ -118,7 +111,6 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRouteRouteWithChildren
   '/login': typeof AuthLoginRoute
   '/admin/submissions': typeof AdminSubmissionsRouteWithChildren
-  '/': typeof AppIndexRoute
   '/challenges/$challengeId': typeof AppChallengesChallengeIdRouteRouteWithChildren
   '/admin/submissions/{$submissionId}_modal': typeof AdminSubmissionsChar123submissionIdChar125_modalRoute
   '/admin/submissions/$submissionId': typeof AdminSubmissionsSubmissionIdRoute
@@ -135,7 +127,6 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteRouteWithChildren
   '/_auth/login': typeof AuthLoginRoute
   '/admin/submissions': typeof AdminSubmissionsRouteWithChildren
-  '/_app/': typeof AppIndexRoute
   '/_app/challenges/$challengeId': typeof AppChallengesChallengeIdRouteRouteWithChildren
   '/admin/submissions/{$submissionId}_modal': typeof AdminSubmissionsChar123submissionIdChar125_modalRoute
   '/admin/submissions_/$submissionId': typeof AdminSubmissionsSubmissionIdRoute
@@ -151,7 +142,6 @@ export interface FileRouteTypes {
     | '/admin'
     | '/login'
     | '/admin/submissions'
-    | '/'
     | '/challenges/$challengeId'
     | '/admin/submissions/{$submissionId}_modal'
     | '/admin/submissions/$submissionId'
@@ -165,7 +155,6 @@ export interface FileRouteTypes {
     | '/admin'
     | '/login'
     | '/admin/submissions'
-    | '/'
     | '/challenges/$challengeId'
     | '/admin/submissions/{$submissionId}_modal'
     | '/admin/submissions/$submissionId'
@@ -181,7 +170,6 @@ export interface FileRouteTypes {
     | '/admin'
     | '/_auth/login'
     | '/admin/submissions'
-    | '/_app/'
     | '/_app/challenges/$challengeId'
     | '/admin/submissions/{$submissionId}_modal'
     | '/admin/submissions_/$submissionId'
@@ -220,13 +208,6 @@ declare module '@tanstack/react-router' {
       fullPath: ''
       preLoaderRoute: typeof AppRouteRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/_app/': {
-      id: '/_app/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof AppIndexRouteImport
-      parentRoute: typeof AppRouteRoute
     }
     '/admin/submissions': {
       id: '/admin/submissions'
@@ -324,13 +305,11 @@ const AppChallengesChallengeIdRouteRouteWithChildren =
   )
 
 interface AppRouteRouteChildren {
-  AppIndexRoute: typeof AppIndexRoute
   AppChallengesChallengeIdRouteRoute: typeof AppChallengesChallengeIdRouteRouteWithChildren
   AppChallengesIndexRoute: typeof AppChallengesIndexRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
-  AppIndexRoute: AppIndexRoute,
   AppChallengesChallengeIdRouteRoute:
     AppChallengesChallengeIdRouteRouteWithChildren,
   AppChallengesIndexRoute: AppChallengesIndexRoute,

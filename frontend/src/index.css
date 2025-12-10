@@ -15,10 +15,11 @@
     --primary-btn-bg-colour-hover: #3f5f5f;
     --charcoal-colour: #3e3e40;
     --charcoal-colour-disabled: #41414492;
-    --gray-colour-1: #f2f2f2;
-    --gray-colour-2: #e7e7e7;
+    --gray-colour-1: #ebecee;
+    --gray-colour-2: #d5d5d5;
     --gray-colour-3: #b8bdc8;
-    --white-1: #f4f3f2;
+    --white-1: #f5f5f6;
+    --white-2: #f7f7f7;
     --red-1: #cd1a1a;
     --red-2: #9c1e1e;
     --radius-small: 4px;
@@ -36,12 +37,18 @@ body {
     min-width: 320px;
     min-height: 100vh;
     color: black;
-    /*background-color: var(--white-1);*/
+    background-color: var(--white-1);
 }
 
 .page-content {
+    width: 100%;
+}
+
+.constrainer {
+    max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
+    padding: 0 2rem;
 }
 
 .not-found-page {
@@ -94,10 +101,4 @@ body {
 
 .not-found-page .link-button:hover {
     background-color: var(--primary-btn-bg-colour-hover);
-}
-
-@media (min-width: 1280px) {
-    .page-content {
-        max-width: 1200px;
-    }
 }

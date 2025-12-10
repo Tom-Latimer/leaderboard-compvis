@@ -66,6 +66,7 @@ public class WebSecurityConfig {
                                 .requestMatchers(HttpMethod.GET,
                                         "/api/challenges",
                                         "/api/challenges/*",
+                                        "/api/challenges/{id}/overview",
                                         "/api/challenges/*/datasets/*/download",
                                         "/api/challenges/*/datasets",
                                         "/api/challenges/*/submissions",

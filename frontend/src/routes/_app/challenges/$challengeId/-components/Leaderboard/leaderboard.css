@@ -6,6 +6,7 @@
     border-radius: var(--radius-small);
     border: 1px solid var(--gray-colour-3);
     width: auto;
+    background-color: white;
 }
 
 .leaderboard {
@@ -40,7 +41,7 @@
 }
 
 .leaderboard tbody tr:hover {
-    background-color: var(--gray-colour-1);
+    background-color: var(--white-2);
 }
 
 .leaderboard tbody tr:last-child {

@@ -1,5 +1,5 @@
 import {createFileRoute, Outlet} from '@tanstack/react-router'
-import Navbar from "../../components/navbar/Navbar.tsx";
+import Navbar from "./-components/navbar/Navbar.tsx";
 
 export const Route = createFileRoute('/_app')({
     component: RouteComponent,

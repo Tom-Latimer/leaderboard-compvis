@@ -16,7 +16,7 @@ export const getSubmissionListPaged = async (
 
     const result = await adminApi.get(`/submissions`, {
         params: {
-            filter: filter,
+            ...filter,
             p: p,
             s: s,
             sort: sortKey,

@@ -1,11 +1,9 @@
 package com.sweets.leaderboard_compvis.challenges.controllers;
 
-import com.sweets.leaderboard_compvis.challenges.models.DTO.ChallengeDto;
-import com.sweets.leaderboard_compvis.challenges.models.DTO.CreateChallengeDto;
-import com.sweets.leaderboard_compvis.challenges.models.DTO.DatasetDownloadDto;
-import com.sweets.leaderboard_compvis.challenges.models.DTO.FileDownloadDto;
+import com.sweets.leaderboard_compvis.challenges.models.DTO.*;
 import com.sweets.leaderboard_compvis.challenges.services.ChallengeService;
 import com.sweets.leaderboard_compvis.infrastructure.models.DTO.MessageResponse;
+import com.sweets.leaderboard_compvis.infrastructure.models.DTO.PagedResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.PageRequest;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -33,13 +30,13 @@ public class ChallengeController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<ChallengeDto>> getChallenges(
+    public ResponseEntity<PagedResponse<ChallengeDto>> getChallenges(
             @RequestParam int p,
             @RequestParam int s
     ) {
         Pageable pageable = PageRequest.of(p, s);
 
-        List<ChallengeDto> challenges = challengeService.getChallengesPaged(pageable);
+        PagedResponse<ChallengeDto> challenges = challengeService.getChallengesPaged(pageable);
 
         return ResponseEntity.ok(challenges);
     }
@@ -55,6 +52,12 @@ public class ChallengeController {
     @GetMapping("/{id}")
     public ResponseEntity<ChallengeDto> getChallengeById(@PathVariable long id) {
         return ResponseEntity.ok(challengeService.getChallengeById(id));
+    }
+
+    //can probably be removed with better implementation on frontend
+    @GetMapping("/{id}/overview")
+    public ResponseEntity<ChallengeOverviewDto> getChallengeOverview(@PathVariable long id) {
+        return ResponseEntity.ok(challengeService.getChallengeOverview(id));
     }
 
     @PostMapping("/{id}/datasets/upload")
@@ -83,14 +86,14 @@ public class ChallengeController {
     }
 
     @GetMapping("/{id}/datasets")
-    public ResponseEntity<List<DatasetDownloadDto>> getDatasets(
+    public ResponseEntity<PagedResponse<DatasetDownloadDto>> getDatasets(
             @PathVariable long id,
             @RequestParam int p,
             @RequestParam int s
     ) {
         Pageable pageable = PageRequest.of(p, s);
 
-        List<DatasetDownloadDto> datasets = challengeService.getDatasetsByChallengeIdPaged(id, pageable);
+        PagedResponse<DatasetDownloadDto> datasets = challengeService.getDatasetsByChallengeIdPaged(id, pageable);
 
         return ResponseEntity.ok(datasets);
     }

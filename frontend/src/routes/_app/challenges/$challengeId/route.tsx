@@ -20,25 +20,32 @@ function RouteComponent() {
 
     return (
         <>
-            <h2>{challenge.title}</h2>
-            <div className="tabbed-container">
-                <div className="tabbed-nav">
-                    <Link to="/challenges/$challengeId/overview" params={{challengeId: challenge.id}}
-                          className="tabbed-nav-link"
-                          activeProps={{className: "tabbed-nav-link-active"}}>Overview</Link>
-                    <Link to="/challenges/$challengeId/files" params={{challengeId: challenge.id}}
-                          className="tabbed-nav-link"
-                          activeProps={{className: "tabbed-nav-link-active"}}>Datasets</Link>
-                    <Link to="/challenges/$challengeId/leaderboard" params={{challengeId: challenge.id}}
-                          className="tabbed-nav-link"
-                          activeProps={{className: "tabbed-nav-link-active"}}>Leaderboard</Link>
-                </div>
-                <div className="tabbed-nav">
-                    <Link to="/challenges/$challengeId/submit" params={{challengeId: challenge.id}}
-                          className="tabbed-nav-link" activeProps={{className: "tabbed-nav-link-active"}}>Submit</Link>
+            <div className="tabbed-page-header">
+                <div className="constrainer">
+                    <h1>{challenge.title}</h1>
+                    <div className="tabbed-container">
+                        <div className="tabbed-nav">
+                            <Link to="/challenges/$challengeId/overview" params={{challengeId: challenge.id}}
+                                  className="tabbed-nav-link"
+                                  activeProps={{className: "tabbed-nav-link-active"}}>Overview</Link>
+                            <Link to="/challenges/$challengeId/files" params={{challengeId: challenge.id}}
+                                  className="tabbed-nav-link"
+                                  activeProps={{className: "tabbed-nav-link-active"}}>Datasets</Link>
+                            <Link to="/challenges/$challengeId/leaderboard" params={{challengeId: challenge.id}}
+                                  className="tabbed-nav-link"
+                                  activeProps={{className: "tabbed-nav-link-active"}}>Leaderboard</Link>
+                        </div>
+                        <div className="tabbed-nav">
+                            <Link to="/challenges/$challengeId/submit" params={{challengeId: challenge.id}}
+                                  className="tabbed-nav-link"
+                                  activeProps={{className: "tabbed-nav-link-active"}}>Submit</Link>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <Outlet/>
+            <div className="constrainer">
+                <Outlet/>
+            </div>
         </>
     );
 }

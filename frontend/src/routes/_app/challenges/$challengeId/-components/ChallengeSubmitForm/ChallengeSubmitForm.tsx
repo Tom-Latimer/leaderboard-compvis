@@ -2,12 +2,12 @@ import React from "react";
 import {FormProvider, type SubmitHandler, useFieldArray, useForm} from "react-hook-form";
 import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
-import type {ApiError} from "../../types/errors/ApiError.ts";
+import type {ApiError} from "../../../../../../types/errors/ApiError.ts";
 import axios from "axios";
-import {postChallengeSubmission} from "../../api/challenges/submissionApi.ts";
-import FileDropzone from "../form/FileDropzone/FileDropzone.tsx";
-import SuccessAlert from "../form/SuccessAlert/SuccessAlert.tsx";
-import TrashIcon from "../../assets/trash.svg?react";
+import {postChallengeSubmission} from "../../../../../../api/challenges/submissionApi.ts";
+import FileDropzone from "../../../../../../components/form/FileDropzone/FileDropzone.tsx";
+import SuccessAlert from "../../../../../../components/form/SuccessAlert/SuccessAlert.tsx";
+import TrashIcon from "../../../../../../assets/trash.svg?react";
 import "./challenge-submit-form.css";
 
 const nameRegex = /^[\p{L} ,.'-]{2,}$/u;

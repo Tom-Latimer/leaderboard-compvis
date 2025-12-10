@@ -1,10 +1,7 @@
 package com.sweets.leaderboard_compvis.challenges.services;
 
 import com.sweets.leaderboard_compvis.challenges.exceptions.ChallengeNotFoundException;
-import com.sweets.leaderboard_compvis.challenges.models.DTO.ChallengeDto;
-import com.sweets.leaderboard_compvis.challenges.models.DTO.CreateChallengeDto;
-import com.sweets.leaderboard_compvis.challenges.models.DTO.DatasetDownloadDto;
-import com.sweets.leaderboard_compvis.challenges.models.DTO.FileDownloadDto;
+import com.sweets.leaderboard_compvis.challenges.models.DTO.*;
 import com.sweets.leaderboard_compvis.challenges.models.EMimeTypes;
 import com.sweets.leaderboard_compvis.challenges.models.JPA.Challenge;
 import com.sweets.leaderboard_compvis.challenges.models.JPA.DatasetMetadata;
@@ -14,6 +11,7 @@ import com.sweets.leaderboard_compvis.challenges.repositories.DatasetMetadataRep
 import com.sweets.leaderboard_compvis.challenges.repositories.S3Repository;
 import com.sweets.leaderboard_compvis.challenges.repositories.SubmissionMetadataRepository;
 import com.sweets.leaderboard_compvis.infrastructure.exceptions.BadRequestException;
+import com.sweets.leaderboard_compvis.infrastructure.models.DTO.PagedResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -57,12 +55,19 @@ public class ChallengeServiceImpl implements ChallengeService {
     }
 
     @Override
-    public List<ChallengeDto> getChallengesPaged(Pageable pageable) {
+    public PagedResponse<ChallengeDto> getChallengesPaged(Pageable pageable) {
         Page<Challenge> page = challengeRepository.findAll(pageable);
 
-        List<ChallengeDto> challenges = mapper.toCreateChallengeDto(page.getContent());
+        List<ChallengeDto> items = mapper.toCreateChallengeDto(page.getContent());
 
-        return challenges;
+        //response type is used for client side pagination
+        return new PagedResponse<>(
+                items,
+                page.getNumber(),
+                page.getTotalPages(),
+                page.getTotalElements(),
+                page.getSize()
+        );
     }
 
     @Override
@@ -86,6 +91,18 @@ public class ChallengeServiceImpl implements ChallengeService {
                 .orElseThrow(() -> new ChallengeNotFoundException(challengeId));
 
         return mapper.toChallengeDto(challenge);
+    }
+
+    @Override
+    public ChallengeOverviewDto getChallengeOverview(Long challengeId) {
+        if (challengeId == null) {
+            throw new BadRequestException("Challenge ID cannot be null");
+        }
+
+        Challenge challenge = challengeRepository.findById(challengeId)
+                .orElseThrow(() -> new ChallengeNotFoundException(challengeId));
+
+        return mapper.toChallengeOverviewDto(challenge);
     }
 
     @Override
@@ -130,7 +147,7 @@ public class ChallengeServiceImpl implements ChallengeService {
     }
 
     @Override
-    public List<DatasetDownloadDto> getDatasetsByChallengeIdPaged(Long challengeId, Pageable pageable) {
+    public PagedResponse<DatasetDownloadDto> getDatasetsByChallengeIdPaged(Long challengeId, Pageable pageable) {
 
         if (challengeId == null) {
             throw new BadRequestException("Challenge ID cannot be null");
@@ -142,7 +159,16 @@ public class ChallengeServiceImpl implements ChallengeService {
 
         Page<DatasetMetadata> page = challengeRepository.findDatasetsByChallengeId(challengeId, pageable);
 
-        return mapper.toDatasetDownloadDtoList(page.getContent());
+        List<DatasetDownloadDto> items = mapper.toDatasetDownloadDtoList(page.getContent());
+
+        //response type is used for client side pagination
+        return new PagedResponse<>(
+                items,
+                page.getNumber(),
+                page.getTotalPages(),
+                page.getTotalElements(),
+                page.getSize()
+        );
     }
 
     private String saveCsv(String bucket, String filepath, MultipartFile file) throws IOException {

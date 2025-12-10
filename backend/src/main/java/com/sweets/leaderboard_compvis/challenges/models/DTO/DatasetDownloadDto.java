@@ -6,7 +6,7 @@ public class DatasetDownloadDto {
 
     private UUID attachmentId;
     private String fileName;
-    private long contentLength;
+    private long fileSize;
 
     public DatasetDownloadDto() {
     }
@@ -27,11 +27,11 @@ public class DatasetDownloadDto {
         this.fileName = fileName;
     }
 
-    public long getContentLength() {
-        return contentLength;
+    public long getFileSize() {
+        return fileSize;
     }
 
-    public void setContentLength(long contentLength) {
-        this.contentLength = contentLength;
+    public void setFileSize(long fileSize) {
+        this.fileSize = fileSize;
     }
 }

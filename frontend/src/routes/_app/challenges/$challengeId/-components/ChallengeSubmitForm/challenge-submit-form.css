@@ -45,7 +45,7 @@
     color: white;
 }
 
-.form-button:hover {
+.form-btn:hover {
     background-color: var(--primary-btn-bg-colour-hover);
 }
 
@@ -61,6 +61,7 @@
 .team-member-container {
     border: 2px solid var(--gray-colour-2);
     border-radius: var(--radius-small);
+    background-color: white;
 }
 
 .team-member-header {

@@ -1,11 +1,15 @@
-import './challenge-list.css';
-import type {Challenge} from "../../types/challenges/challenge.ts";
+import type {Challenge} from "../../../../types/challenges/challenge.ts";
 import {Link} from "@tanstack/react-router";
+import "./challenge-list.css";
+import PlaceholderIcon from "../../../../assets/placeholder-image.svg?react";
 
 const ChallengeCard = ({challenge}: { challenge: Challenge }) => {
     return (
         <Link to='/challenges/$challengeId/overview' params={{challengeId: challenge.id}}
               className="challenge-card">
+            <div className="challenge-card-image">
+                <PlaceholderIcon/>
+            </div>
             <div className="challenge-card-body">
                 <h3>{challenge.title}</h3>
                 <p>{challenge.description}</p>
@@ -14,9 +18,9 @@ const ChallengeCard = ({challenge}: { challenge: Challenge }) => {
     );
 }
 
-const ChallengeList = ({challenges}: { challenges: Challenge[] }) => {
+const ChallengeList = ({items}: { items: Challenge[] }) => {
 
-    if (challenges.length === 0) {
+    if (items.length === 0) {
         return (
             <p>No challenges found.</p>
         );
@@ -25,7 +29,7 @@ const ChallengeList = ({challenges}: { challenges: Challenge[] }) => {
     return (
         <div className="challenge-list">
             {
-                challenges.map(challenge => (
+                items.map(challenge => (
                     <ChallengeCard key={challenge.id} challenge={challenge}/>
                 ))
             }
