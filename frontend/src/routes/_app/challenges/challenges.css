@@ -56,3 +56,7 @@
 .tabbed-page-body .subheader {
     margin-bottom: 1.5rem;
 }
+
+.tabbed-page-body .content p {
+    white-space: pre-wrap;
+}

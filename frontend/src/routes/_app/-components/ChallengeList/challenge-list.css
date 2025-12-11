@@ -30,6 +30,8 @@
     border-radius: 50%;
     border: 2px solid #636161;
     background-color: var(--white-1);
+    flex-shrink: 0;
+    flex-grow: 0;
 }
 
 .challenge-card-image svg {
@@ -41,6 +43,9 @@
 .challenge-card-body {
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-width: 0;
 }
 
 .challenge-card-body h3, .challenge-card-body p {
@@ -49,4 +54,11 @@
 
 .challenge-card-body h3 {
     font-weight: 600;
+}
+
+.challenge-card-body p {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
